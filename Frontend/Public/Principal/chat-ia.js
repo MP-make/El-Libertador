@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
             chatInput.focus();
             if (chatState.step === 'initial') {
                 setTimeout(() => {
-                    agregarMensaje('¡Hola! Soy HotelBot, tu asistente virtual. ¿En qué puedo ayudarte hoy? Puedo ayudarte a encontrar habitaciones perfectas para tu estadía.', 'bot');
+                    agregarMensaje('¡Hola! Soy HotelBot, tu asistente virtual. ¿En qué puedo ayudarte hoy? Puedo ayudarte a encontrar habitaciones perfectas para tu estadia.', 'bot');
                 }, 500);
             }
         });
@@ -195,7 +195,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     info.innerHTML = `
                         <h4>Habitación ${habitacion.numero_habitacion}</h4>
                         <p>${habitacion.categoria}</p>
-                        <p>S/ ${habitacion.precio_por_dia}/día</p>
+                        <p>S/ ${habitacion.precio_por_dia}/dia</p>
                     `;
                     
                     const btn = document.createElement('button');
@@ -261,7 +261,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="chat-room-info">
                         <h4>Habitación ${habitacion.numero_habitacion}</h4>
                         <p>${habitacion.categoria}</p>
-                        <p>S/ ${habitacion.precio_por_dia}/día</p>
+                        <p>S/ ${habitacion.precio_por_dia}/dia</p>
                     </div>
                     <button class="btn-check" onclick="seleccionarHabitacionChat(${habitacion.id_habitacion}, 'Habitación ${habitacion.numero_habitacion}')" title="Seleccionar habitación">✓</button>
                 </div>

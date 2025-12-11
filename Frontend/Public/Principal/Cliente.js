@@ -151,7 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     notifications.push({
                         icon: 'fas fa-check',
                         title: `Reserva Completada (${fechaCheckoutStr})`,
-                        message: `Tu estadía en la Habitación ${reserva.numero_habitacion} ha finalizado. ¡Gracias por visitarnos!`
+                        message: `Tu estadia en la Habitación ${reserva.numero_habitacion} ha finalizado. ¡Gracias por visitarnos!`
                     });
                 }
             });
@@ -179,7 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 notifications.push({
                     icon: 'fas fa-smile',
                     title: '¡Bienvenido!',
-                    message: 'Tu cuenta está al día. Revisa tus reservas y perfil.'
+                    message: 'Tu cuenta está al dia. Revisa tus reservas y perfil.'
                 });
             }
             
@@ -872,7 +872,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             <div class="boleta-footer">
                 <p>Este documento constituye un comprobante de pago válido.</p>
-                <p>Gracias por su preferencia. ¡Esperamos que disfrute su estadía!</p>
+                <p>Gracias por su preferencia. ¡Esperamos que disfrute su estadia!</p>
                 <p><strong>${datosBoleta.hotel}</strong> - Excelencia en Hospitalidad</p>
             </div>
         `;

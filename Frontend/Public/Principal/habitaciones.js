@@ -211,7 +211,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         habitacion.fotos = [];
                     }
                 } catch (err) {
-                    console.error(`Error cargando fotos de habitaciÃ³n ${habitacion.id_habitacion}:`, err);
+                    console.error(`Error cargando fotos de Habitación ${habitacion.id_habitacion}:`, err);
                     habitacion.fotos = [];
                 }
             }
@@ -248,7 +248,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const habitacion = habitacionesData.find(h => h.id_habitacion === habitacionId);
         if (!habitacion) return false;
         
-        // Si no hay filtro de fechas, usar el campo disponible de la habitaciÃ³n
+        // Si no hay filtro de fechas, usar el campo disponible de la Habitación
         if (!fechaCheckin || !fechaCheckout) {
             return habitacion.disponible !== false;
         }
@@ -294,25 +294,25 @@ document.addEventListener('DOMContentLoaded', () => {
         const filtradas = habitacionesData.filter(hab => {
             // Filtrar por categorÃ­a
             if (categoria && hab.categoria !== categoria) {
-                console.log(`HabitaciÃ³n ${hab.numero_habitacion} descartada por categorÃ­a`);
+                console.log(`Habitación ${hab.numero_habitacion} descartada por categorÃ­a`);
                 return false;
             }
             
             // Filtrar por rango de precio
             if (hab.precio_por_dia < precioMin || hab.precio_por_dia > precioMax) {
-                console.log(`HabitaciÃ³n ${hab.numero_habitacion} descartada por precio`);
+                console.log(`Habitación ${hab.numero_habitacion} descartada por precio`);
                 return false;
             }
             
             // Filtrar por capacidad (debe ser mayor o igual a la capacidad solicitada)
             if (capacidad && hab.capacidad < parseInt(capacidad)) {
-                console.log(`HabitaciÃ³n ${hab.numero_habitacion} descartada por capacidad (tiene ${hab.capacidad}, necesita ${capacidad})`);
+                console.log(`Habitación ${hab.numero_habitacion} descartada por capacidad (tiene ${hab.capacidad}, necesita ${capacidad})`);
                 return false;
             }
             
             // Filtrar por disponibilidad y fechas
             if (!estaDisponible(hab.id_habitacion, fechaCheckin, fechaCheckout)) {
-                console.log(`HabitaciÃ³n ${hab.numero_habitacion} descartada por disponibilidad`);
+                console.log(`Habitación ${hab.numero_habitacion} descartada por disponibilidad`);
                 return false;
             }
             
@@ -345,7 +345,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 imagenSrc = `/img/habitaciones/${habitacion.fotos[0]}`;
             }
 
-            // NUEVO: Verificar si el cliente ya tiene una reserva activa de esta habitaciÃ³n
+            // NUEVO: Verificar si el cliente ya tiene una reserva activa de esta Habitación
             const yaLaReserve = reservasData.some(r => 
                 r.id_habitacion === habitacion.id_habitacion && 
                 r.estado_reserva !== 'completada' &&
@@ -355,19 +355,19 @@ document.addEventListener('DOMContentLoaded', () => {
             return `
                 <div class="habitacion-card">
                     <img src="${imagenSrc}" 
-                        alt="HabitaciÃ³n ${habitacion.numero_habitacion}" 
+                        alt="Habitación ${habitacion.numero_habitacion}" 
                         class="habitacion-imagen"
                         onerror="this.src='https://images.unsplash.com/photo-1590490360182-c33d57733427?w=400'">
                     <div class="habitacion-info">
-                        <h3 class="habitacion-titulo">HabitaciÃ³n ${habitacion.numero_habitacion}</h3>
+                        <h3 class="habitacion-titulo">Habitación ${habitacion.numero_habitacion}</h3>
                         <p class="habitacion-descripcion">${habitacion.categoria || 'EstÃ¡ndar'} - Piso ${habitacion.piso || 'N/A'} - Capacidad ${habitacion.capacidad || 2} personas</p>
-                        <div class="habitacion-precio">S/ ${parseFloat(habitacion.precio_por_dia).toFixed(2)} / dÃ­a</div>
+                        <div class="habitacion-precio">S/ ${parseFloat(habitacion.precio_por_dia).toFixed(2)} / día</div>
                         <div class="habitacion-disponibilidad disponible">
                             Disponible
                         </div>
                         <button class="btn-reservar" 
                                 data-id="${habitacion.id_habitacion}"
-                                data-nombre="HabitaciÃ³n ${habitacion.numero_habitacion}">
+                                data-nombre="Habitación ${habitacion.numero_habitacion}">
                             ${yaLaReserve ? 'Ver Mi Reserva' : 'Reservar Ahora'}
                         </button>
                     </div>
@@ -426,7 +426,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="boleta-section">
                 <div class="section-title">DETALLES DE LA RESERVA</div>
                 <div class="info-row">
-                    <span class="info-label">HabitaciÃ³n:</span>
+                    <span class="info-label">Habitación:</span>
                     <span class="info-value">${datosBoleta.reserva.habitacion}</span>
                 </div>
                 <div class="info-row">
@@ -458,7 +458,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             <div class="boleta-footer">
                 <p>Este documento constituye un comprobante de pago vÃ¡lido.</p>
-                <p>Gracias por su preferencia. Â¡Esperamos que disfrute su estadÃ­a!</p>
+                <p>Gracias por su preferencia. Â¡Esperamos que disfrute su estadía!</p>
                 <p><strong>${datosBoleta.hotel}</strong> - Excelencia en Hospitalidad</p>
             </div>
         `;
@@ -599,14 +599,14 @@ document.addEventListener('DOMContentLoaded', () => {
             mostrarHabitaciones(habitacionesData); // Mostrar todas inicialmente
         }
 
-        // Si hay parÃ¡metro 'room', abrir modal de reserva para esa habitaciÃ³n
+        // Si hay parÃ¡metro 'room', abrir modal de reserva para esa Habitación
         if (roomId) {
             const habitacionId = parseInt(roomId);
             const habitacion = habitacionesData.find(h => h.id_habitacion === habitacionId);
             if (habitacion) {
                 // Esperar un poco para que se carguen los datos
                 setTimeout(() => {
-                    reservarHabitacion(habitacionId, `HabitaciÃ³n ${habitacion.numero_habitacion}`);
+                    reservarHabitacion(habitacionId, `Habitación ${habitacion.numero_habitacion}`);
                 }, 500);
             }
         }
@@ -673,7 +673,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Establecer la imagen
         document.getElementById('detalleHabitacionImagen').src = reserva.foto;
         
-        // Guardar el ID de la habitaciÃ³n para el reclamo
+        // Guardar el ID de la Habitación para el reclamo
         document.getElementById('reclamoHabitacionId').value = reserva.idHabitacion;
         
         // Limpiar el formulario de reclamo
@@ -954,7 +954,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="boleta-section">
                     <div class="section-title">DETALLES DE LA RESERVA</div>
                     <div class="info-row">
-                        <span class="info-label">HabitaciÃ³n:</span>
+                        <span class="info-label">Habitación:</span>
                         <span class="info-value">${reserva.habitacion || 'N/A'}</span>
                     </div>
                     <div class="info-row">
@@ -989,7 +989,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <!-- Footer -->
                 <div class="boleta-footer">
                     <p>Este documento constituye un comprobante de pago vÃ¡lido.</p>
-                    <p>Gracias por su preferencia. Â¡Esperamos que disfrute su estadÃ­a!</p>
+                    <p>Gracias por su preferencia. Â¡Esperamos que disfrute su estadía!</p>
                     <p><strong>Gran Hotel El Libertador</strong> - Excelencia en Hospitalidad</p>
                 </div>
             `;
@@ -1061,7 +1061,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // FunciÃ³n para reservar habitaciÃ³n
+    // FunciÃ³n para reservar Habitación
     function reservarHabitacion(habitacionId, nombreHabitacion) {
         if (!usuarioActual) {
             alert('Debe iniciar sesiÃ³n para realizar una reserva');
@@ -1074,7 +1074,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // VALIDACIÃ“N CRÃTICA: Verificar si el cliente ya tiene una reserva activa de esta habitaciÃ³n
+        // VALIDACIÃ“N CRÃTICA: Verificar si el cliente ya tiene una reserva activa de esta Habitación
         const reservaExistente = reservasData.find(r => 
             r.id_habitacion === habitacionId && 
             r.estado_reserva !== 'completada' &&
@@ -1111,7 +1111,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('reservaHabitacionCategoria').textContent = `CategorÃ­a: ${habitacion.categoria}`;
             document.getElementById('reservaHabitacionPiso').textContent = `Piso: ${habitacion.piso}`;
             document.getElementById('reservaHabitacionCapacidad').textContent = `Capacidad: ${habitacion.capacidad} personas`;
-            document.getElementById('reservaHabitacionPrecioDia').textContent = `Precio por dÃ­a: S/ ${habitacion.precio_por_dia}`;
+            document.getElementById('reservaHabitacionPrecioDia').textContent = `Precio por día: S/ ${habitacion.precio_por_dia}`;
             
             // Manejar la visualizaciÃ³n de imagen
             const imagenElement = document.getElementById('reservaHabitacionImagen');

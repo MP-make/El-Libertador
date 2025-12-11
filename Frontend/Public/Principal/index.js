@@ -266,13 +266,13 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // FUNCIÃ“N CORREGIDA: Verificar si el cliente ya tiene una reserva activa de esta habitaciÃ³n
+        // FUNCIÃ“N CORREGIDA: Verificar si el cliente ya tiene una reserva activa de esta Habitación
         function clienteTieneReservaActiva(habitacionId) {
             if (!misReservasActivas || misReservasActivas.length === 0) {
                 return false;
             }
 
-            // Verificar si el cliente tiene una reserva activa de esta habitaciÃ³n especÃ­fica
+            // Verificar si el cliente tiene una reserva activa de esta Habitación especÃ­fica
             return misReservasActivas.some(r => 
                 r.id_habitacion === habitacionId && 
                 r.estado_reserva !== 'completada' &&
@@ -337,25 +337,25 @@ document.addEventListener('DOMContentLoaded', () => {
                                 ? (habitacion.fotos[0].startsWith('/') ? habitacion.fotos[0] : '/img/habitaciones/' + habitacion.fotos[0]) 
                                 : 'https://source.unsplash.com/featured/?luxury-hotel-room';
                             
-                            // VERIFICAR si el cliente ya tiene una reserva activa de esta habitaciÃ³n (doble verificaciÃ³n)
+                            // VERIFICAR si el cliente ya tiene una reserva activa de esta Habitación (doble verificaciÃ³n)
                             const yaLaReserve = clienteTieneReservaActiva(habitacion.id_habitacion);
                             
                             return `
                             <div class="habitacion-card">
                                 <img src="${fotoSrc}" 
-                                     alt="HabitaciÃ³n ${habitacion.numero_habitacion}" 
+                                     alt="Habitación ${habitacion.numero_habitacion}" 
                                      class="habitacion-imagen"
                                      onerror="this.onerror=null; this.src='https://source.unsplash.com/featured/?luxury-hotel-room';">
                                 <div class="habitacion-info">
-                                    <h3 class="habitacion-titulo">HabitaciÃ³n ${habitacion.numero_habitacion}</h3>
+                                    <h3 class="habitacion-titulo">Habitación ${habitacion.numero_habitacion}</h3>
                                     <p class="habitacion-descripcion">${habitacion.categoria} - Piso ${habitacion.piso} - Capacidad ${habitacion.capacidad}</p>
-                                    <div class="habitacion-precio">S/ ${habitacion.precio_por_dia} / dÃ­a</div>
+                                    <div class="habitacion-precio">S/ ${habitacion.precio_por_dia} / día</div>
                                     <div class="habitacion-disponibilidad ${habitacion.disponible ? 'disponible' : 'no-disponible'}">
                                         ${habitacion.disponible ? 'Disponible' : 'No disponible'}
                                     </div>
                                     <button class="btn-reservar" 
                                             data-id="${habitacion.id_habitacion}"
-                                            data-nombre="HabitaciÃ³n ${habitacion.numero_habitacion}">
+                                            data-nombre="Habitación ${habitacion.numero_habitacion}">
                                         ${yaLaReserve ? 'Ver Mi Reserva' : 'Reservar Ahora'}
                                     </button>
                                 </div>
@@ -423,15 +423,15 @@ document.addEventListener('DOMContentLoaded', () => {
                                  class="habitacion-imagen"
                                  onerror="this.onerror=null; this.src='https://source.unsplash.com/featured/?luxury-hotel-room';">
                             <div class="habitacion-info">
-                                <h3 class="habitacion-titulo">HabitaciÃ³n ${habitacion.numero_habitacion}</h3>
+                                <h3 class="habitacion-titulo">Habitación ${habitacion.numero_habitacion}</h3>
                                 <p class="habitacion-descripcion">${habitacion.categoria} - Piso ${habitacion.piso} - Capacidad ${habitacion.capacidad}</p>
-                                <div class="habitacion-precio">S/ ${habitacion.precio_por_dia} / dÃ­a</div>
+                                <div class="habitacion-precio">S/ ${habitacion.precio_por_dia} / día</div>
                                 <div class="habitacion-disponibilidad ${habitacion.disponible ? 'disponible' : 'no-disponible'}">
                                     ${habitacion.disponible ? 'Disponible' : 'No disponible'}
                                 </div>
                                 <button class="btn-reservar" 
                                         data-id="${habitacion.id_habitacion}"
-                                        data-nombre="HabitaciÃ³n ${habitacion.numero_habitacion}">
+                                        data-nombre="Habitación ${habitacion.numero_habitacion}">
                                     ${yaLaReserve ? 'Ver Mi Reserva' : 'Reservar Ahora'}
                                 </button>
                             </div>
@@ -510,7 +510,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Establecer la imagen
             document.getElementById('detalleHabitacionImagen').src = reserva.foto;
             
-            // Guardar el ID de la habitaciÃ³n para el reclamo
+            // Guardar el ID de la Habitación para el reclamo
             document.getElementById('reclamoHabitacionId').value = reserva.idHabitacion;
             
             // Limpiar el formulario de reclamo
@@ -678,7 +678,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // FunciÃ³n para reservar habitaciÃ³n
+        // FunciÃ³n para reservar Habitación
         function reservarHabitacion(habitacionId, nombreHabitacion) {
             if (!usuarioActual) {
                 alert('Debe iniciar sesiÃ³n para realizar una reserva');
@@ -691,7 +691,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            // VALIDACIÃ“N CRÃTICA: Verificar si el cliente ya tiene una reserva activa de esta habitaciÃ³n
+            // VALIDACIÃ“N CRÃTICA: Verificar si el cliente ya tiene una reserva activa de esta Habitación
             const reservaExistente = misReservasActivas.find(r => 
                 r.id_habitacion === habitacionId && 
                 r.estado_reserva !== 'completada' &&
@@ -728,7 +728,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById('reservaHabitacionCategoria').textContent = `CategorÃ­a: ${habitacion.categoria}`;
                 document.getElementById('reservaHabitacionPiso').textContent = `Piso: ${habitacion.piso}`;
                 document.getElementById('reservaHabitacionCapacidad').textContent = `Capacidad: ${habitacion.capacidad} personas`;
-                document.getElementById('reservaHabitacionPrecioDia').textContent = `Precio por dÃ­a: S/ ${habitacion.precio_por_dia}`;
+                document.getElementById('reservaHabitacionPrecioDia').textContent = `Precio por día: S/ ${habitacion.precio_por_dia}`;
                 
                 // Manejar la visualizaciÃ³n de imagen
                 const imagenElement = document.getElementById('reservaHabitacionImagen');
@@ -810,7 +810,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Calcular monto total
             const habitacion = habitacionesData.find(h => h.id_habitacion === currentHabitacionId);
             if (!habitacion) {
-                document.getElementById('reservaMessage').textContent = 'Error: habitaciÃ³n no encontrada';
+                document.getElementById('reservaMessage').textContent = 'Error: Habitación no encontrada';
                 return;
             }
             
@@ -874,7 +874,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Variable global para el usuario actual
         let usuarioActual = null;
 
-        // Variable para la habitaciÃ³n actual en reserva
+        // Variable para la Habitación actual en reserva
         let currentHabitacionId = null;
 
         // FunciÃ³n para verificar si hay una sesiÃ³n activa
@@ -1267,10 +1267,10 @@ document.addEventListener('DOMContentLoaded', () => {
                             return `
                             <div class="reserva-card">
                                 <img src="${fotoSrc}" 
-                                     alt="HabitaciÃ³n ${reserva.numero_habitacion}" 
+                                     alt="Habitación ${reserva.numero_habitacion}" 
                                      class="reserva-imagen">
                                 <div class="reserva-info">
-                                    <h3 class="reserva-titulo">HabitaciÃ³n ${reserva.numero_habitacion}</h3>
+                                    <h3 class="reserva-titulo">Habitación ${reserva.numero_habitacion}</h3>
                                     <p class="reserva-descripcion">${reserva.categoria}</p>
                                     <p class="reserva-fechas">Check-in: ${checkin}</p>
                                     <p class="reserva-fechas">Check-out: ${checkout}</p>
@@ -1517,7 +1517,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="boleta-section">
                         <div class="section-title">DETALLES DE LA RESERVA</div>
                         <div class="info-row">
-                            <span class="info-label">HabitaciÃ³n:</span>
+                            <span class="info-label">Habitación:</span>
                             <span class="info-value">${reserva.habitacion || 'N/A'}</span>
                         </div>
                         <div class="info-row">
@@ -1552,7 +1552,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <!-- Footer -->
                     <div class="boleta-footer">
                         <p>Este documento constituye un comprobante de pago vÃ¡lido.</p>
-                        <p>Gracias por su preferencia. Â¡Esperamos que disfrute su estadÃ­a!</p>
+                        <p>Gracias por su preferencia. Â¡Esperamos que disfrute su estadía!</p>
                         <p><strong>Gran Hotel El Libertador</strong> - Excelencia en Hospitalidad</p>
                     </div>
                 `;
@@ -1665,7 +1665,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="boleta-section">
                     <div class="section-title">DETALLES DE LA RESERVA</div>
                     <div class="info-row">
-                        <span class="info-label">HabitaciÃ³n:</span>
+                        <span class="info-label">Habitación:</span>
                         <span class="info-value">${datosBoleta.reserva.habitacion}</span>
                     </div>
                     <div class="info-row">
@@ -1700,7 +1700,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <!-- Footer -->
                 <div class="boleta-footer">
                     <p>Este documento constituye un comprobante de pago vÃ¡lido.</p>
-                    <p>Gracias por su preferencia. Â¡Esperamos que disfrute su estadÃ­a!</p>
+                    <p>Gracias por su preferencia. Â¡Esperamos que disfrute su estadía!</p>
                     <p><strong>${datosBoleta.hotel}</strong> - Excelencia en Hospitalidad</p>
                 </div>
             `;
@@ -2006,7 +2006,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             <div class="boleta-section">
                                 <div class="section-title">DETALLES DE LA RESERVA</div>
                                 <div class="info-row">
-                                    <span class="info-label">HabitaciÃ³n:</span>
+                                    <span class="info-label">Habitación:</span>
                                     <span class="info-value">${datosBoleta.reserva.habitacion}</span>
                                 </div>
                                 <div class="info-row">
@@ -2038,7 +2038,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             
                             <div class="boleta-footer">
                                 <p>Este documento constituye un comprobante de pago vÃ¡lido.</p>
-                                <p>Gracias por su preferencia. Â¡Esperamos que disfrute su estadÃ­a!</p>
+                                <p>Gracias por su preferencia. Â¡Esperamos que disfrute su estadía!</p>
                                 <p><strong>${datosBoleta.hotel}</strong> - Excelencia en Hospitalidad</p>
                             </div>
                             `

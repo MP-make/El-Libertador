@@ -209,7 +209,15 @@ const staticPath = isVercel
   ? path.join(__dirname, '..', 'public')
   : path.join(__dirname, '..', 'Frontend', 'Public', 'Principal');
 
-app.use(express.static(staticPath));
+app.use(express.static(staticPath, {
+  setHeaders: (res, path) => {
+    if (path.endsWith('.js')) {
+      res.setHeader('Content-Type', 'application/javascript; charset=utf-8');
+    } else if (path.endsWith('.css')) {
+      res.setHeader('Content-Type', 'text/css; charset=utf-8');
+    }
+  }
+}));
 
 // Servir imágenes
 const imgStatic = isVercel

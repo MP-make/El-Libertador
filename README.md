@@ -46,7 +46,7 @@ Sistema web integral para la gestión hotelera que permite administrar reservas,
 - Chat con asistente IA para soporte
 - Gestión de 5 tipos de habitaciones: Estándar, Matrimonial, Deluxe, Junior Suite, Suite
 - Carga y gestión de imágenes (carousel, habitaciones)
-- Cálculo automático de precios por hora y por día
+- Cálculo automático de precios por hora y por dia
 - Reportes y estadísticas en tiempo real
 
 #### ❌ Funcionalidades NO Incluidas (Fuera del Alcance):
@@ -381,7 +381,7 @@ Trabajo Pendiente (horas)
 ```
 
 **Análisis Sprint 1:**  
-El equipo comenzó lento los primeros 3 días debido a la curva de aprendizaje de JWT y bcrypt, pero aceleró en la segunda semana completando todas las tareas a tiempo.
+El equipo comenzó lento los primeros 3 dias debido a la curva de aprendizaje de JWT y bcrypt, pero aceleró en la segunda semana completando todas las tareas a tiempo.
 
 ---
 
@@ -412,7 +412,7 @@ Trabajo Pendiente (horas)
 ```
 
 **Análisis Sprint 2:**  
-Progreso más uniforme gracias a las mejoras aplicadas de la retrospectiva anterior. Completado 1 día antes del plazo.
+Progreso más uniforme gracias a las mejoras aplicadas de la retrospectiva anterior. Completado 1 dia antes del plazo.
 
 ---
 
@@ -557,22 +557,22 @@ Sprint más cargado pero el equipo demostró madurez. Chat IA tomó más tiempo 
 
 | # | Sprint | Fecha | Impedimento | Impacto | Responsable | Solución Aplicada | Fecha Resolución | Estado |
 |---|--------|-------|-------------|---------|-------------|-------------------|------------------|--------|
-| 1 | Sprint 1 | [Fecha] | Falta de experiencia con JWT | 🔴 Alto - Retraso de 1 día | Scrum Master | Sesión de capacitación en equipo, documentación compartida | [Fecha] | ✅ Resuelto |
+| 1 | Sprint 1 | [Fecha] | Falta de experiencia con JWT | 🔴 Alto - Retraso de 1 dia | Scrum Master | Sesión de capacitación en equipo, documentación compartida | [Fecha] | ✅ Resuelto |
 | 2 | Sprint 1 | [Fecha] | PostgreSQL no instalado en ambiente local | 🟡 Medio | Developer | Instalación guiada, configuración .env compartida | [Fecha] | ✅ Resuelto |
 | 3 | Sprint 2 | [Fecha] | Rutas de imágenes no funcionan en servidor | 🔴 Alto | Backend Dev | Configuración de express.static, paths absolutos | [Fecha] | ✅ Resuelto |
 | 4 | Sprint 2 | [Fecha] | Conflicto en merge de Git | 🟡 Medio | Scrum Master | Sesión de pair programming para resolver conflictos | [Fecha] | ✅ Resuelto |
 | 5 | Sprint 3 | [Fecha] | API de pagos en sandbox no responde | 🔴 Alto - Bloqueó testing | Frontend Dev | Cambio a servicio alternativo, mock de respuestas | [Fecha] | ✅ Resuelto |
-| 6 | Sprint 3 | [Fecha] | Bug en cálculo de precios por día/hora | 🔴 Alto | Backend Dev | Refactorización de lógica, agregados tests unitarios | [Fecha] | ✅ Resuelto |
+| 6 | Sprint 3 | [Fecha] | Bug en cálculo de precios por dia/hora | 🔴 Alto | Backend Dev | Refactorización de lógica, agregados tests unitarios | [Fecha] | ✅ Resuelto |
 | 7 | Sprint 3 | [Fecha] | Falta claridad en estados de reserva | 🟡 Medio | Product Owner | Reunión con stakeholder, definición clara de flujo | [Fecha] | ✅ Resuelto |
 | 8 | Sprint 4 | [Fecha] | Integración de IA más compleja de lo esperado | 🔴 Alto - Riesgo de no completar | Frontend Dev | Pair programming, consulta con mentor externo | [Fecha] | ✅ Resuelto |
 | 9 | Sprint 4 | [Fecha] | Dashboard lento con muchas reservas | 🟡 Medio | Backend Dev | Optimización de queries SQL, agregado de índices | [Fecha] | ✅ Resuelto |
-| 10 | Sprint 4 | [Fecha] | Miembro del equipo enfermo 2 días | 🟡 Medio | Scrum Master | Redistribución de tareas, pair programming | [Fecha] | ✅ Resuelto |
+| 10 | Sprint 4 | [Fecha] | Miembro del equipo enfermo 2 dias | 🟡 Medio | Scrum Master | Redistribución de tareas, pair programming | [Fecha] | ✅ Resuelto |
 
 **Resumen de Impedimentos:**
 - Total: 10 impedimentos
 - Impacto Alto: 5 (50%)
 - Impacto Medio: 5 (50%)
-- Tiempo promedio de resolución: 1.5 días
+- Tiempo promedio de resolución: 1.5 dias
 - Todos fueron resueltos sin afectar entrega final
 
 ---

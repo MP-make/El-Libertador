@@ -220,8 +220,8 @@
                                 </div>
                                 <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
                                     <div class="bg-blue-200 p-4 rounded-lg shadow-sm">
-                                        <h3 class="font-medium text-gray-700">Ingresos Netos del Día</h3>
-                                        <p class="text-3xl font-bold text-blue-800 mt-2">$${(metrics.ingresos_netos_dia || 0).toFixed(2)}</p>
+                                        <h3 class="font-medium text-gray-700">Ingresos Netos del dia</h3>
+                                        <p class="text-3xl font-bold text-blue-800 mt-2">$${(parseFloat(metrics.ingresos_netos_dia) || 0).toFixed(2)}</p>
                                         <p class="text-sm text-gray-600">Ganancia total por check-ins, check-outs y servicios adicionales facturados hoy.</p>
                                     </div>
                                     <div class="bg-green-200 p-4 rounded-lg shadow-sm">
@@ -231,17 +231,17 @@
                                     </div>
                                     <div class="bg-yellow-200 p-4 rounded-lg shadow-sm">
                                         <h3 class="font-medium text-gray-700">Tasa de Ocupación Actual</h3>
-                                        <p class="text-3xl font-bold text-yellow-800 mt-2">${((metrics.tasa_ocupacion_actual || 0) * 100).toFixed(1)}%</p>
+                                        <p class="text-3xl font-bold text-yellow-800 mt-2">${((parseFloat(metrics.tasa_ocupacion_actual) || 0) * 100).toFixed(1)}%</p>
                                         <p class="text-sm text-gray-600">Porcentaje de habitaciones ocupadas en este momento. Métrica vital de rendimiento del activo.</p>
                                     </div>
                                     <div class="bg-indigo-200 p-4 rounded-lg shadow-sm">
                                         <h3 class="font-medium text-gray-700">ADR (Tarifa Diaria Promedio)</h3>
-                                        <p class="text-3xl font-bold text-indigo-800 mt-2">$${(metrics.adr_hoy || 0).toFixed(2)}</p>
+                                        <p class="text-3xl font-bold text-indigo-800 mt-2">$${(parseFloat(metrics.adr_hoy) || 0).toFixed(2)}</p>
                                         <p class="text-sm text-gray-600">Ingreso promedio por habitación ocupada hoy. Mide la efectividad de la política de precios.</p>
                                     </div>
                                     <div class="bg-purple-200 p-4 rounded-lg shadow-sm">
                                         <h3 class="font-medium text-gray-700">Valor Pendiente Reservas (Futuras)</h3>
-                                        <p class="text-3xl font-bold text-purple-800 mt-2">$${(metrics.valor_pendiente_futuras || 0).toFixed(2)}</p>
+                                        <p class="text-3xl font-bold text-purple-800 mt-2">$${(parseFloat(metrics.valor_pendiente_futuras) || 0).toFixed(2)}</p>
                                         <p class="text-sm text-gray-600">Suma de dinero esperado por las reservas futuras ya confirmadas (potenciales ingresos).</p>
                                     </div>
                                     <div class="bg-red-200 p-4 rounded-lg shadow-sm">
@@ -270,9 +270,9 @@
                                     <div class="p-4 bg-white rounded shadow">
                                         <h4 class="font-semibold">Comportamiento del Huésped</h4>
                                         <ul class="text-sm space-y-1">
-                                            <li>Estadía Promedio (Días): ${metrics.estadia_promedio || 0} días</li>
-                                            <li>Gasto Promedio por Estadía: $${(metrics.gasto_promedio_estadia || 0).toFixed(2)}</li>
-                                            <li>Tasa de Retención de Huéspedes: ${(metrics.tasa_retencion || 0).toFixed(1)}%</li>
+                                            <li>Estadia Promedio (dias): ${metrics.estadia_promedio || 0} dias</li>
+                                            <li>Gasto Promedio por Estadia: $${(parseFloat(metrics.gasto_promedio_estadia) || 0).toFixed(2)}</li>
+                                            <li>Tasa de Retención de Huéspedes: ${(parseFloat(metrics.tasa_retencion) || 0).toFixed(1)}%</li>
                                         </ul>
                                     </div>
                                     <div class="p-4 bg-white rounded shadow md:col-span-2">
@@ -292,21 +292,27 @@
                                                     <tr>
                                                         <td class="py-2 px-4">Matrimonial</td>
                                                         <td class="py-2 px-4">${metrics.ocupacion_matrimonial || 0}%</td>
-                                                        <td class="py-2 px-4">$${(metrics.adr_matrimonial || 0).toFixed(2)}</td>
+                                                        <td class="py-2 px-4">$${(parseFloat(metrics.adr_matrimonial) || 0).toFixed(2)}</td>
                                                     </tr>
                                                     <tr>
                                                         <td class="py-2 px-4">Estándar</td>
                                                         <td class="py-2 px-4">${metrics.ocupacion_estandar || 0}%</td>
-                                                        <td class="py-2 px-4">$${(metrics.adr_estandar || 0).toFixed(2)}</td>
+                                                        <td class="py-2 px-4">$${(parseFloat(metrics.adr_estandar) || 0).toFixed(2)}</td>
                                                     </tr>
                                                     <tr>
                                                         <td class="py-2 px-4">Deluxe</td>
                                                         <td class="py-2 px-4">${metrics.ocupacion_deluxe || 0}%</td>
-                                                        <td class="py-2 px-4">$${(metrics.adr_deluxe || 0).toFixed(2)}</td>
+                                                        <td class="py-2 px-4">$${(parseFloat(metrics.adr_deluxe) || 0).toFixed(2)}</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
                                         </div>
+                                    </div>
+                                    <div class="p-4 bg-white rounded shadow md:col-span-2">
+                                        <h4 class="font-semibold">Servicios Más Rentables</h4>
+                                        <ul id="servicios-rentables-list" class="text-sm space-y-1">
+                                            <!-- Will be populated by postRender -->
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
@@ -326,10 +332,32 @@
                                     <div class="p-4 bg-white rounded shadow">
                                         <h4 class="font-semibold">Alertas de Gestión y Ocupación</h4>
                                         <ul class="text-sm space-y-1">
-                                            <li>Ocupación Baja (Próximos 7 días): ${metrics.ocupacion_baja_7dias || 0}% - Considerar promociones.</li>
+                                            <li>Ocupación Baja (Próximos 7 dias): ${metrics.ocupacion_baja_7dias || 0}% - Considerar promociones.</li>
                                             <li>Habitaciones para Revisar (Limpieza/Mantenimiento): ${metrics.habitaciones_revisar || 0}</li>
                                             <li>Vencimiento de Contratos (Encargados): Revisar [Nombre Encargado].</li>
                                         </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 5. Gráficos y Análisis -->
+                            <div class="admin-card">
+                                <div class="flex justify-between items-center mb-4">
+                                    <h2 class="text-xl font-semibold">Gráficos y Análisis</h2>
+                                    <button class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">Exportar a Hojas de cálculo</button>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div class="p-4 bg-white rounded shadow">
+                                        <h3 class="text-lg font-medium mb-2">Ingresos Mensuales</h3>
+                                        <canvas id="chart-ingresos-mensuales" width="400" height="200"></canvas>
+                                    </div>
+                                    <div class="p-4 bg-white rounded shadow">
+                                        <h3 class="text-lg font-medium mb-2">Distribución de Pagos</h3>
+                                        <canvas id="chart-distribucion-pagos" width="400" height="200"></canvas>
+                                    </div>
+                                    <div class="p-4 bg-white rounded shadow">
+                                        <h3 class="text-lg font-medium mb-2">Picos de Check-in/Check-out</h3>
+                                        <canvas id="chart-picos-checkin-checkout" width="400" height="200"></canvas>
                                     </div>
                                 </div>
                             </div>
@@ -344,72 +372,88 @@
                         const metrics = window.currentMetrics;
 
                         // Ingresos Mensuales
-                        const ingresosCanvas = document.getElementById('chart-ingresos-mensuales');
-                        if (ingresosCanvas && metrics.chart_ingresos_mensuales && metrics.chart_ingresos_mensuales.rows) {
-                            const ctx = ingresosCanvas.getContext('2d');
-                            const data = metrics.chart_ingresos_mensuales.rows;
-                            new Chart(ctx, {
-                                type: 'bar',
-                                data: {
-                                    labels: data.map(row => row.month),
-                                    datasets: [{
-                                        label: 'Ingresos',
-                                        data: data.map(row => row.revenue),
-                                        backgroundColor: 'rgba(139, 69, 19, 0.5)',
-                                    }, {
-                                        label: 'Meta',
-                                        data: data.map(row => row.target),
-                                        backgroundColor: 'rgba(218, 165, 32, 0.5)',
-                                    }]
-                                }
-                            });
+                        if (metrics.chart_ingresos_mensuales && metrics.chart_ingresos_mensuales.rows) {
+                            const ingresosCanvas = document.getElementById('chart-ingresos-mensuales');
+                            if (ingresosCanvas) {
+                                const ctx = ingresosCanvas.getContext('2d');
+                                const data = metrics.chart_ingresos_mensuales.rows;
+                                new Chart(ctx, {
+                                    type: 'bar',
+                                    data: {
+                                        labels: data.map(row => row.month),
+                                        datasets: [{
+                                            label: 'Ingresos',
+                                            data: data.map(row => row.revenue),
+                                            backgroundColor: 'rgba(139, 69, 19, 0.5)',
+                                        }, {
+                                            label: 'Meta',
+                                            data: data.map(row => row.target),
+                                            backgroundColor: 'rgba(218, 165, 32, 0.5)',
+                                        }]
+                                    }
+                                });
+                            } else {
+                                console.warn('Elemento chart-ingresos-mensuales no encontrado, saltando...');
+                            }
                         }
 
                         // Distribución de Pagos
-                        const pagosCanvas = document.getElementById('chart-distribucion-pagos');
-                        if (pagosCanvas && metrics.chart_distribucion_ingresos && metrics.chart_distribucion_ingresos.rows) {
-                            const ctx = pagosCanvas.getContext('2d');
-                            const data = metrics.chart_distribucion_ingresos.rows;
-                            new Chart(ctx, {
-                                type: 'pie',
-                                data: {
-                                    labels: data.map(row => row.method),
-                                    datasets: [{
-                                        data: data.map(row => row.amount),
-                                        backgroundColor: ['#8B4513', '#DAA520', '#F5F5DC', '#696969'],
-                                    }]
-                                }
-                            });
+                        if (metrics.chart_distribucion_ingresos && metrics.chart_distribucion_ingresos.rows) {
+                            const pagosCanvas = document.getElementById('chart-distribucion-pagos');
+                            if (pagosCanvas) {
+                                const ctx = pagosCanvas.getContext('2d');
+                                const data = metrics.chart_distribucion_ingresos.rows;
+                                new Chart(ctx, {
+                                    type: 'pie',
+                                    data: {
+                                        labels: data.map(row => row.method),
+                                        datasets: [{
+                                            data: data.map(row => row.amount),
+                                            backgroundColor: ['#8B4513', '#DAA520', '#F5F5DC', '#696969'],
+                                        }]
+                                    }
+                                });
+                            } else {
+                                console.warn('Elemento chart-distribucion-pagos no encontrado, saltando...');
+                            }
                         }
 
                         // Picos de Check-in/Check-out
-                        const picosCanvas = document.getElementById('chart-picos-checkin-checkout');
-                        if (picosCanvas && metrics.chart_checkins_diarios && metrics.chart_checkins_diarios.rows) {
-                            const ctx = picosCanvas.getContext('2d');
-                            const data = metrics.chart_checkins_diarios.rows;
-                            new Chart(ctx, {
-                                type: 'line',
-                                data: {
-                                    labels: data.map(row => row.hour),
-                                    datasets: [{
-                                        label: 'Check-ins',
-                                        data: data.map(row => row.checkins),
-                                        borderColor: '#8B4513',
-                                        fill: false,
-                                    }, {
-                                        label: 'Check-outs',
-                                        data: data.map(row => row.checkouts),
-                                        borderColor: '#DAA520',
-                                        fill: false,
-                                    }]
-                                }
-                            });
+                        if (metrics.chart_checkins_diarios && metrics.chart_checkins_diarios.rows) {
+                            const picosCanvas = document.getElementById('chart-picos-checkin-checkout');
+                            if (picosCanvas) {
+                                const ctx = picosCanvas.getContext('2d');
+                                const data = metrics.chart_checkins_diarios.rows;
+                                new Chart(ctx, {
+                                    type: 'line',
+                                    data: {
+                                        labels: data.map(row => row.hour),
+                                        datasets: [{
+                                            label: 'Check-ins',
+                                            data: data.map(row => row.checkins),
+                                            borderColor: '#8B4513',
+                                            fill: false,
+                                        }, {
+                                            label: 'Check-outs',
+                                            data: data.map(row => row.checkouts),
+                                            borderColor: '#DAA520',
+                                            fill: false,
+                                        }]
+                                    }
+                                });
+                            } else {
+                                console.warn('Elemento chart-picos-checkin-checkout no encontrado, saltando...');
+                            }
                         }
 
                         // Servicios Rentables
                         if (metrics.servicios_rentables) {
                             const list = document.getElementById('servicios-rentables-list');
-                            list.innerHTML = metrics.servicios_rentables.map(s => `<li>${s.nombre}: $${s.ingresos}</li>`).join('');
+                            if (list) {
+                                list.innerHTML = metrics.servicios_rentables.map(s => `<li>${s.nombre}: $${s.ingresos}</li>`).join('');
+                            } else {
+                                console.warn('Elemento servicios-rentables-list no encontrado, saltando...');
+                            }
                         }
                     }
                 }
@@ -756,7 +800,7 @@
                             <td class="py-3 px-4">${h.id_habitacion || ''}</td>
                             <td class="py-3 px-4">${h.numero_habitacion}</td>
                             <td class="py-3 px-4">${categoriasMap.get(h.id_categoria) || h.categoria || 'N/A'}</td>
-                            <td class="py-3 px-4">$${(h.precio_por_dia || 0).toFixed ? (h.precio_por_dia||0).toFixed(2) : (h.precio_por_dia||0)}</td>
+                            <td class="py-3 px-4">$${(parseFloat(h.precio_por_dia) || 0).toFixed(2)}</td>
                             <td class="py-3 px-4">${h.precio_por_hora ? `$${h.precio_por_hora}` : '-'}</td>
                             <td class="py-3 px-4">${h.piso || '-'}</td>
                             <td class="py-3 px-4">${h.capacidad || '-'}</td>
@@ -818,7 +862,7 @@
                                     <th class="py-3 px-4 text-left">ID</th>
                                     <th class="py-3 px-4 text-left">Número</th>
                                     <th class="py-3 px-4 text-left">Categoría</th>
-                                    <th class="py-3 px-4 text-left">Precio/Día</th>
+                                    <th class="py-3 px-4 text-left">Precio/dia</th>
                                     <th class="py-3 px-4 text-left">Precio/Hora</th>
                                     <th class="py-3 px-4 text-left">Piso</th>
                                     <th class="py-3 px-4 text-left">Capacidad</th>
@@ -864,7 +908,7 @@
                                     <td class="py-3 px-4">${h.id_habitacion || ''}</td>
                                     <td class="py-3 px-4">${h.numero_habitacion}</td>
                                     <td class="py-3 px-4">${h.categoria || '-'}</td>
-                                    <td class="py-3 px-4">$${(h.precio_por_dia||0).toFixed ? (h.precio_por_dia||0).toFixed(2) : (h.precio_por_dia||0)}</td>
+                                    <td class="py-3 px-4">$${(parseFloat(h.precio_por_dia) || 0).toFixed(2)}</td>
                                     <td class="py-3 px-4">${h.precio_por_hora|| '-'}</td>
                                     <td class="py-3 px-4">${h.piso || '-'}</td>
                                     <td class="py-3 px-4">${h.capacidad || '-'}</td>
@@ -955,7 +999,7 @@
                                             <select id="add-categoria" class="mt-1 border rounded p-2">${categoriasOptions}</select>
                                         </div>
                                         <div>
-                                            <label>Precio por Día (USD)</label>
+                                            <label>Precio por dia (USD)</label>
                                             <input id="add-precio-dia" type="number" step="0.01" class="mt-1 border rounded p-2" required>
                                             <p id="min-dia-msg" class="text-sm text-gray-500 mt-1"></p>
                                         </div>
@@ -1003,7 +1047,7 @@
                                     if (!sel) return;
                                     const minDia = sel.getAttribute('data-precio-dia');
                                     const minHora = sel.getAttribute('data-precio-hora');
-                                    minDiaMsg.textContent = minDia ? `Precio mínimo por día: $${parseFloat(minDia).toFixed(2)}` : '';
+                                    minDiaMsg.textContent = minDia ? `Precio mínimo por dia: $${parseFloat(minDia).toFixed(2)}` : '';
                                     minHoraMsg.textContent = minHora ? `Precio mínimo por hora: $${parseFloat(minHora).toFixed(2)}` : '';
                                     if (minDia) inputPrecioDia.min = minDia; else inputPrecioDia.removeAttribute('min');
                                     if (minHora) inputPrecioHora.min = minHora; else inputPrecioHora.removeAttribute('min');
@@ -1034,7 +1078,7 @@
                                         // validar precios mínimos según categoría
                                         const minDia = parseFloat(categoriaSel.getAttribute('data-precio-dia') || '0') || 0;
                                         const minHora = parseFloat(categoriaSel.getAttribute('data-precio-hora') || '0') || 0;
-                                        if (minDia && precioDia < minDia) return showModal('Error', `<p>El precio por día no puede ser inferior a $${minDia.toFixed(2)} para esta categoría.</p>`);
+                                        if (minDia && precioDia < minDia) return showModal('Error', `<p>El precio por dia no puede ser inferior a $${minDia.toFixed(2)} para esta categoría.</p>`);
                                         if (minHora && precioHora && precioHora < minHora) return showModal('Error', `<p>El precio por hora no puede ser inferior a $${minHora.toFixed(2)} para esta categoría.</p>`);
 
                                         // construir FormData para incluir imágenes
@@ -1866,7 +1910,7 @@
                                 </div>
                                 
                                 <div style="margin-bottom: 15px;">
-                                    <label style="display: block; margin-bottom: 5px; color: #333; font-weight: 600;">Precio por Día (USD)</label>
+                                    <label style="display: block; margin-bottom: 5px; color: #333; font-weight: 600;">Precio por dia (USD)</label>
                                     <input type="number" step="0.01" name="precio_por_dia" value="${habitacion.precio_por_dia || ''}" 
                                            class="form-input" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px;">
                                 </div>

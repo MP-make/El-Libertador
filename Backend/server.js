@@ -1082,9 +1082,9 @@ app.put("/api/admin/hotel-config", authenticateToken, requireAdmin, async (req, 
  */
 app.get("/api/admin/dashboard", authenticateToken, requireAdmin, async (req, res) => {
   try {
-    // 1. INGRESOS NETOS DEL DÍA
+    // 1. INGRESOS NETOS DEL dia
     const ingresosHoy = await queryWithRetry(`
-      SELECT COALESCE(SUM(monto_pagado), 0)::float as total
+      SELECT COALESCE(SUM(monto), 0)::float as total
       FROM pagos
       WHERE DATE(fecha_pago) = CURRENT_DATE
     `);
@@ -1174,14 +1174,14 @@ app.get("/api/admin/dashboard", authenticateToken, requireAdmin, async (req, res
         )
     `);
 
-    // 10. ESTADÍA PROMEDIO (en días)
+    // 10. ESTAdia PROMEDIO (en dias)
     const estadiaPromedio = await queryWithRetry(`
       SELECT COALESCE(AVG(EXTRACT(DAY FROM (fecha_checkout - fecha_checkin))), 0)::float as promedio
       FROM reservas
       WHERE estado_reserva = 'completada'
     `);
 
-    // 11. GASTO PROMEDIO POR ESTADÍA
+    // 11. GASTO PROMEDIO POR ESTAdia
     const gastoPromedioEstadia = await queryWithRetry(`
       SELECT COALESCE(AVG(monto_total), 0)::float as promedio
       FROM reservas
@@ -1230,7 +1230,7 @@ app.get("/api/admin/dashboard", authenticateToken, requireAdmin, async (req, res
         AND tipo_solicitud = 'reclamo'
     `);
 
-    // 15. OCUPACIÓN PRÓXIMOS 7 DÍAS
+    // 15. OCUPACIÓN PRÓXIMOS 7 diaS
     const ocupacion7Dias = await queryWithRetry(`
       SELECT 
         COALESCE(
@@ -1261,7 +1261,7 @@ app.get("/api/admin/dashboard", authenticateToken, requireAdmin, async (req, res
       ORDER BY DATE_TRUNC('month', fecha_pago)
     `);
 
-    // 18. CHECK-INS DIARIOS (últimos 30 días)
+    // 18. CHECK-INS DIARIOS (últimos 30 dias)
     const checkinsDiarios = await queryWithRetry(`
       SELECT 
         DATE(fecha_checkin) as fecha,
@@ -2451,7 +2451,7 @@ app.post("/api/chat", authenticateToken, async (req, res) => {
       `);
 
       if (preciosResult.rows.length > 0) {
-        let respuesta = 'Nuestras tarifas por día son:\n';
+        let respuesta = 'Nuestras tarifas por dia son:\n';
         preciosResult.rows.forEach(cat => {
           respuesta += `• ${cat.nombre}: S/ ${cat.precio_min} - S/ ${cat.precio_max}\n`;
         });

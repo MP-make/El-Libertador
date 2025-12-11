@@ -155,7 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 container.innerHTML = '<p style="text-align:center">No hay habitaciones que coincidan con los filtros.</p>';
                 return;
             }
-            container.innerHTML = '<table class="rooms-table"><thead><tr><th>#</th><th>Categoría</th><th>Piso</th><th>Capacidad</th><th>Precio/Día</th><th>Disponible</th><th>Acciones</th></tr></thead><tbody>' +
+            container.innerHTML = '<table class="rooms-table"><thead><tr><th>#</th><th>Categoría</th><th>Piso</th><th>Capacidad</th><th>Precio/dia</th><th>Disponible</th><th>Acciones</th></tr></thead><tbody>' +
                 habitaciones.map(h => `<tr><td>${h.numero_habitacion}</td><td>${h.categoria||'N/A'}</td><td>${h.piso||'-'}</td><td>${h.capacidad||'-'}</td><td>${h.precio_por_dia||'-'}</td><td>${h.disponible? 'Sí':'No'}</td><td><button class="btn fotos-btn" data-id="${h.id_habitacion}">Fotos</button></td></tr>`).join('') +
                 '</tbody></table>';
         } catch (err) {
