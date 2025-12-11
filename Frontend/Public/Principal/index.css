@@ -296,6 +296,7 @@ Header y Navegación
     width: auto;
     border-radius: 0;
     box-shadow: none;
+    filter: brightness(0) invert(1); /* Hace el logo blanco si es oscuro */
 }
 
 .header h1 {
@@ -361,8 +362,15 @@ Header - Iconos Expandibles (TODOS LOS BOTONES DE AUTENTICACIÓN)
 .auth-link[data-modal-target="loginModal"] .login-icon {
     width: 24px;
     height: 24px;
-    filter: brightness(0) invert(1);
-    flex-shrink: 0;
+    filter: brightness(0) invert(1); /* Hace el icono blanco */
+    vertical-align: middle;
+}
+
+.auth-link[data-modal-target="loginModal"] .login-icon-svg {
+    width: 24px;
+    height: 24px;
+    color: white; /* Hace el icono blanco */
+    vertical-align: middle;
 }
 
 .auth-link[data-modal-target="loginModal"]:hover {
@@ -2262,14 +2270,6 @@ Los estilos ahora están en pago-modal.css
   box-shadow: 0 4px 12px var(--shadow-medium);
 }
 
-
-
-.login-icon {
-    width: 20px;
-    height: 20px;
-    filter: brightness(0) invert(1); /* Convierte la imagen a blanco */
-    vertical-align: middle;
-}
 
 
 /* Tarjetas de habitaciones en el chat */
