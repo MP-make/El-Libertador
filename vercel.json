@@ -1,35 +1,31 @@
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "api/server.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "public/**",
-      "use": "@vercel/static"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "/api/server.js"
-    },
-    {
-      "src": "/",
-      "dest": "/public/index.html"
-    },
-    {
-      "src": "/img/(.*)",
-      "dest": "/public/img/$1"
-    },
-    {
-      "src": "/(.*\\.(css|js|png|jpg|jpeg|gif|svg|ico|webp|html))",
-      "dest": "/public/$1"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/public/$1"
-    }
-  ]
-}
+    "version": 2,
+    "builds": [
+      {
+        "src": "Backend/server.js",
+        "use": "@vercel/node"
+      },
+      {
+        "src": "Fronted/Public/**",
+        "use": "@vercel/static"
+      }
+    ],
+    "routes": [
+      {
+        "src": "/api/(.*)",
+        "dest": "/Backend/server.js"
+      },
+      {
+        "src": "/img/(.*)",
+        "dest": "/Fronted/Public/img/$1"
+      },
+      {
+        "src": "/",
+        "dest": "/Fronted/Public/Principal/index.html"
+      },
+      {
+        "src": "/(.*)",
+        "dest": "/Fronted/Public/Principal/$1"
+      }
+    ]
+  }
