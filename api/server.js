@@ -8,8 +8,12 @@ const path = require('path');
 const fs = require('fs');
 const jwt = require('jsonwebtoken');
 const axios = require('axios');
-require("dotenv").config({ path: path.join(__dirname, '.env') });
+require("dotenv").config({ path: path.join(__dirname, '..', '.env') });
 
+// Detectar si estamos en Vercel
+const isVercel = process.env.VERCEL === '1' || process.env.NOW_REGION !== undefined;
+
+console.log('Entorno:', isVercel ? 'VERCEL' : 'LOCAL');
 console.log('Server DB_DATABASE:', process.env.DB_DATABASE);
 console.log('Server DB_HOST:', process.env.DB_HOST);
 console.log('Server DB_USER:', process.env.DB_USER);
@@ -165,14 +169,20 @@ queryWithRetry('SELECT NOW()', [], 3, 500)
     console.warn('El servidor se iniciará de todos modos, pero las funcionalidades que requieren BD no funcionarán.');
   });
 
-// Iniciar el servidor inmediatamente
-app.listen(PORT, () => {
-  console.log(`Servidor corriendo en http://localhost:${PORT}`);
-});
+// SOLO iniciar el servidor si NO estamos en Vercel
+if (!isVercel) {
+  app.listen(PORT, () => {
+    console.log(`Servidor corriendo en http://localhost:${PORT}`);
+  });
+} else {
+  console.log('Ejecutando en Vercel - el servidor está configurado como serverless function');
+}
 
 // Define la ruta absoluta para guardar las fotos
 // La carpeta de destino será 'Frontend/Public/img/habitaciones' para coincidir con las rutas guardadas en DB
-const uploadDir = path.join(__dirname, '..', 'Frontend', 'Public', 'img', 'habitaciones');
+const uploadDir = isVercel
+  ? path.join('/tmp', 'uploads', 'habitaciones')
+  : path.join(__dirname, '..', 'public', 'img', 'habitaciones');
 
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
@@ -193,7 +203,9 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 // Configuración para carrusel
-const carouselDir = path.join(__dirname, '..', 'Frontend', 'Public', 'img', 'carousel');
+const carouselDir = isVercel
+  ? path.join('/tmp', 'uploads', 'carousel')
+  : path.join(__dirname, '..', 'public', 'img', 'carousel');
 
 if (!fs.existsSync(carouselDir)) {
   fs.mkdirSync(carouselDir, { recursive: true });
@@ -216,12 +228,13 @@ app.use(cors());
 app.use(express.json());
 
 // Sirve archivos estáticos del front-end desde la carpeta 'Frontend/Public/Principal'
-const staticPath = path.join(__dirname, '..', 'Frontend', 'Public', 'Principal');
-console.log('Sirviendo archivos estáticos desde:', staticPath);
-app.use(express.static(staticPath));
+const staticPath = path.join(__dirname, '..', 'public');
+const imgStatic = path.join(__dirname, '..', 'public', 'img');
 
-// Servir imágenes públicas (ruta /img/...)
-const imgStatic = path.join(__dirname, '..', 'Frontend', 'Public', 'img');
+console.log('Sirviendo archivos estáticos desde:', staticPath);
+console.log('Sirviendo imágenes desde:', imgStatic);
+
+app.use(express.static(staticPath));
 app.use('/img', express.static(imgStatic));
 
 // Evitar 404 en /favicon.ico: servir favicon si existe o una imagen por defecto
