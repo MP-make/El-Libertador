@@ -12,20 +12,8 @@
       "dest": "/api/server.js"
     },
     {
-      "src": "/img/(.*)",
-      "dest": "/public/img/$1"
-    },
-    {
-      "src": "/Principal/(.*)",
-      "dest": "/public/Principal/$1"
-    },
-    {
-      "src": "/(.*\\.(css|js|html|png|jpg|jpeg|gif|svg|ico|webp))",
-      "dest": "/public/Principal/$1"
-    },
-    {
       "src": "/(.*)",
-      "dest": "/public/Principal/index.html"
+      "dest": "/public/$1"
     }
   ],
   "functions": {
@@ -35,24 +23,5 @@
   },
   "env": {
     "NODE_ENV": "production"
-  },
-  "headers": [
-    {
-      "source": "/(.*)",
-      "headers": [
-        {
-          "key": "X-Content-Type-Options",
-          "value": "nosniff"
-        },
-        {
-          "key": "X-Frame-Options",
-          "value": "DENY"
-        },
-        {
-          "key": "X-XSS-Protection",
-          "value": "1; mode=block"
-        }
-      ]
-    }
-  ]
+  }
 }
