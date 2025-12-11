@@ -2,26 +2,30 @@
   "version": 2,
   "builds": [
     {
-      "src": "api/server.js",
+      "src": "Backend/server.js",
       "use": "@vercel/node"
+    },
+    {
+      "src": "Fronted/Public/**",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "/api/server.js"
+      "dest": "/Backend/server.js"
+    },
+    {
+      "src": "/img/(.*)",
+      "dest": "/Fronted/Public/img/$1"
+    },
+    {
+      "src": "/",
+      "dest": "/Fronted/Public/Principal/index.html"
     },
     {
       "src": "/(.*)",
-      "dest": "/public/$1"
+      "dest": "/Fronted/Public/Principal/$1"
     }
-  ],
-  "functions": {
-    "api/server.js": {
-      "maxDuration": 30
-    }
-  },
-  "env": {
-    "NODE_ENV": "production"
-  }
+  ]
 }
