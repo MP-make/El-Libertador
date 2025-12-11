@@ -1,5 +1,7 @@
 ﻿//Wait for the DOM to be fully loaded before running the script
 document.addEventListener('DOMContentLoaded', () => {
+    const API_BASE = '/api';
+    
         // Funciones para manejar los modales
         const openModal = (id) => {
             const modal = document.getElementById(id);
@@ -63,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // FunciÃ³n para cargar y mostrar el carrusel principal
         async function cargarCarruselPrincipal() {
             try {
-                const response = await fetch('/api/carrusel');
+                const response = await fetch(`${API_BASE}/carrusel`);
                 const data = await response.json();
                 
                 if (data.images && data.images.length > 0) {
@@ -249,7 +251,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             
             try {
-                const response = await fetch('/api/cliente/reservas', { 
+                const response = await fetch(`${API_BASE}/cliente/reservas`, { 
                     headers: { 'Authorization': 'Bearer ' + token }
                 });
                 
@@ -286,7 +288,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // PRIMERO: Cargar las reservas del cliente actual
                 await cargarMisReservas();
 
-                const response = await fetch('/api/cliente/habitaciones');
+                const response = await fetch(`${API_BASE}/cliente/habitaciones`);
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
@@ -599,7 +601,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             try {
                 // Obtener la reserva para el total
-                const responseReserva = await fetch(`/api/cliente/reservas/${idReserva}`, {
+                const responseReserva = await fetch(`${API_BASE}/cliente/reservas/${idReserva}`, {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
@@ -610,7 +612,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (!responseReserva.ok) {
                     // Si falla, intentar obtener desde el listado general
                     console.warn('No se pudo obtener reserva individual, intentando desde listado general...');
-                    const responseTodasReservas = await fetch('/api/cliente/reservas', {
+                    const responseTodasReservas = await fetch(`${API_BASE}/cliente/reservas`, {
                         headers: {
                             'Authorization': `Bearer ${token}`
                         }
@@ -632,7 +634,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     console.log('Total de reserva desde listado:', totalReserva);
                     
                     // Obtener historial de pagos
-                    const responsePagos = await fetch(`/api/pagos/reserva/${idReserva}`, {
+                    const responsePagos = await fetch(`${API_BASE}/pagos/reserva/${idReserva}`, {
                         headers: {
                             'Authorization': `Bearer ${token}`
                         }
@@ -656,7 +658,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.log('Total de reserva:', totalReserva);
 
                 // Obtener historial de pagos
-                const responsePagos = await fetch(`/api/pagos/reserva/${idReserva}`, {
+                const responsePagos = await fetch(`${API_BASE}/pagos/reserva/${idReserva}`, {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
@@ -961,7 +963,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // FunciÃ³n para manejar el login
         async function manejarLogin(email, password) {
             try {
-                const response = await fetch('/api/login', {
+                const response = await fetch(`${API_BASE}/login`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -1018,7 +1020,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // FunciÃ³n para manejar el registro
         async function manejarRegistro(nombre, email, password) {
             try {
-                const response = await fetch('/api/register', {
+                const response = await fetch(`${API_BASE}/register`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -1123,7 +1125,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             try {
                 // 1. Crear la reserva con cÃ¡lculo automÃ¡tico
-                const responseReserva = await fetch('/api/cliente/reservas/con-calculo', {
+                const responseReserva = await fetch(`${API_BASE}/cliente/reservas/con-calculo`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -1148,7 +1150,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // 2. Procesar el pago
                 const tipoPago = monto >= window.datosReserva.monto_total ? 'completo' : 'adelanto';
                 
-                const responsePago = await fetch('/api/pagos/procesar', {
+                const responsePago = await fetch(`${API_BASE}/pagos/procesar`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -1221,7 +1223,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             try {
                 const token = localStorage.getItem('token');
-                const response = await fetch('/api/cliente/reservas', {
+                const response = await fetch(`${API_BASE}/cliente/reservas`, {
                     headers: {
                         'Authorization': 'Bearer ' + token
                     }
@@ -1358,7 +1360,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const token = localStorage.getItem('token');
             
             try {
-                const response = await fetch('/api/cliente/reclamos', {
+                const response = await fetch(`${API_BASE}/cliente/reclamos`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -1416,7 +1418,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             try {
                 // Procesar el pago del saldo pendiente
-                const response = await fetch('/api/pagos/procesar', {
+                const response = await fetch(`${API_BASE}/pagos/procesar`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -1475,7 +1477,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Obtener datos completos de la reserva si no los tenemos
                 let datosReserva = reserva;
                 if (!datosReserva.checkin) {
-                    const response = await fetch(`/api/cliente/reservas/${idReserva}`, {
+                    const response = await fetch(`${API_BASE}/cliente/reservas/${idReserva}`, {
                         headers: { 'Authorization': 'Bearer ' + token }
                     });
                     if (response.ok) {
@@ -2075,7 +2077,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (checkin && checkout) {
                 try {
                     const token = localStorage.getItem('token');
-                    const response = await fetch('/api/cliente/habitaciones/disponibles', {
+                    const response = await fetch(`${API_BASE}/cliente/habitaciones/disponibles`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -2179,7 +2181,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // FunciÃ³n para cargar categorÃ­as dinÃ¡micamente en el filtro de bÃºsqueda
         async function cargarCategoriasBusqueda() {
             try {
-                const response = await fetch('/api/categorias');
+                const response = await fetch(`${API_BASE}/categorias`);
                 const data = await response.json();
                 const select = document.getElementById('search-room');
                 select.innerHTML = '<option value="">Todas</option>';

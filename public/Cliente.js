@@ -1,5 +1,6 @@
 ﻿document.addEventListener('DOMContentLoaded', () => {
     // Variables globales
+    const API_BASE = '/api';
     let usuarioActual = null;
 
     // FunciÃ³n para verificar sesiÃ³n
@@ -91,8 +92,8 @@
         try {
             const token = localStorage.getItem('token');
             const [reservasResponse, reclamosResponse] = await Promise.all([
-                fetch('/api/cliente/reservas', { headers: { 'Authorization': 'Bearer ' + token } }),
-                fetch('/api/cliente/reclamos', { headers: { 'Authorization': 'Bearer ' + token } })
+                fetch(`${API_BASE}/cliente/reservas`, { headers: { 'Authorization': 'Bearer ' + token } }),
+                fetch(`${API_BASE}/cliente/reclamos`, { headers: { 'Authorization': 'Bearer ' + token } })
             ]);
             
             const reservas = reservasResponse.ok ? await reservasResponse.json() : [];
@@ -206,7 +207,7 @@
         
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch('/api/cliente/reservas', {
+            const response = await fetch(`${API_BASE}/cliente/reservas`, {
                 headers: { 'Authorization': 'Bearer ' + token }
             });
             
@@ -317,7 +318,7 @@
         }
         
         try {
-            const response = await fetch('/api/cliente/perfil', {
+            const response = await fetch(`${API_BASE}/cliente/perfil`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -366,7 +367,7 @@
         if (confirm('Â¿EstÃ¡s seguro de que quieres eliminar tu cuenta? Esta acciÃ³n no se puede deshacer.')) {
             const token = localStorage.getItem('token');
             try {
-                const response = await fetch('/api/cliente/perfil', {
+                const response = await fetch(`${API_BASE}/cliente/perfil`, {
                     method: 'DELETE',
                     headers: { 'Authorization': 'Bearer ' + token }
                 });
@@ -392,7 +393,7 @@
         
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch('/api/cliente/reclamos', {
+            const response = await fetch(`${API_BASE}/cliente/reclamos`, {
                 headers: { 'Authorization': 'Bearer ' + token }
             });
             
@@ -453,7 +454,7 @@
     async function cargarHabitacionesParaReclamo() {
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch('/api/cliente/habitaciones', {
+            const response = await fetch(`${API_BASE}/cliente/habitaciones`, {
                 headers: { 'Authorization': 'Bearer ' + token }
             });
             
@@ -490,7 +491,7 @@
         const messageElement = document.getElementById('reclamoMessage');
         
         try {
-            const response = await fetch('/api/cliente/reclamos', {
+            const response = await fetch(`${API_BASE}/cliente/reclamos`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -605,7 +606,7 @@
     async function obtenerDatosPagos(idReserva) {
         const token = localStorage.getItem('token');
         try {
-            const responseReserva = await fetch(`/api/cliente/reservas`, {
+            const responseReserva = await fetch(`${API_BASE}/cliente/reservas`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             
@@ -640,7 +641,7 @@
         }
         
         try {
-            const response = await fetch(`/api/pagos/procesar`, {
+            const response = await fetch(`${API_BASE}/pagos/procesar`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -724,7 +725,7 @@
             
             let datosReserva = reserva;
             if (!datosReserva.fecha_checkin) {
-                const response = await fetch(`/api/cliente/reservas`, {
+                const response = await fetch(`${API_BASE}/cliente/reservas`, {
                     headers: { 'Authorization': 'Bearer ' + token }
                 });
                 if (response.ok) {
@@ -1013,7 +1014,7 @@
         const token = localStorage.getItem('token');
         
         try {
-            const response = await fetch('/api/cliente/reclamos', {
+            const response = await fetch(`${API_BASE}/cliente/reclamos`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -1051,7 +1052,7 @@
     async function loadUserInfo() {
         const token = localStorage.getItem('token');
         try {
-            const response = await fetch('/api/auth/me', {
+            const response = await fetch(`${API_BASE}/auth/me`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -1067,7 +1068,7 @@
                     document.getElementById('sidebarUserName').textContent = user.nombre || 'Cliente';
                     
                     // Calcular progreso basado en reservas completadas
-                    const responseReservas = await fetch('/api/cliente/reservas', { headers: { 'Authorization': 'Bearer ' + token } });
+                    const responseReservas = await fetch(`${API_BASE}/cliente/reservas`, { headers: { 'Authorization': 'Bearer ' + token } });
                     if (responseReservas.ok) {
                         const reservas = await responseReservas.json();
                         console.log('Reservas obtenidas:', reservas); // Agrega esto para ver los datos

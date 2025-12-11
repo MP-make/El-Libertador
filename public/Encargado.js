@@ -1,5 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+    const API_BASE = '/api';
+
     const sidebarItems = document.querySelectorAll(".sidebar-item");
     const mainSections = document.querySelectorAll("main section");
     const logoutLink = document.getElementById('logout-link');
@@ -147,7 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (piso) params.set('piso', piso);
             if (disponible) params.set('disponible', disponible);
 
-            const url = '/api/encargado/habitaciones?' + params.toString();
+            const url = `${API_BASE}/encargado/habitaciones?` + params.toString();
             const res = await fetch(url, { headers: getAuthHeaders() });
             if (!res.ok) throw new Error('Error al obtener habitaciones');
             const habitaciones = await res.json();
@@ -196,7 +198,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (fecha_inicio) params.set('fecha_inicio', fecha_inicio);
             if (fecha_fin) params.set('fecha_fin', fecha_fin);
 
-            const url = '/api/encargado/reservas?' + params.toString();
+            const url = `${API_BASE}/encargado/reservas?` + params.toString();
             const res = await fetch(url, { headers: getAuthHeaders() });
             if (!res.ok) {
                 if (res.status === 401 || res.status === 403) {
@@ -268,7 +270,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (habitacion) params.set('habitacion', habitacion);
             if (estado) params.set('estado', estado);
 
-            const url = '/api/encargado/reclamos?' + params.toString();
+            const url = `${API_BASE}/encargado/reclamos?` + params.toString();
             const res = await fetch(url, { headers: getAuthHeaders() });
             if (!res.ok) throw new Error('Error al obtener reclamos');
             const reclamos = await res.json();
@@ -303,7 +305,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const text = document.getElementById('claim-text').value;
             const room = document.getElementById('claim-room').value;
             try {
-                const res = await fetch('/api/encargado/reclamos', {
+                const res = await fetch(`${API_BASE}/encargado/reclamos`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
                     body: JSON.stringify({ descripcion: text, numero_habitacion: room })
@@ -329,7 +331,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (action === 'completar') {
             showConfirmModal('Confirmar que desea marcar la reserva como completada?', async () => {
                 try {
-                    const res = await fetch(`/api/encargado/reservas/${id}/completar`, { method: 'PUT', headers });
+                    const res = await fetch(`${API_BASE}/encargado/reservas/${id}/completar`, { method: 'PUT', headers });
                     if (!res.ok) {
                         const err = await res.json().catch(()=>({ error: res.statusText }));
                         throw new Error(err.error || 'No se pudo completar la reserva');
@@ -344,7 +346,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (action === 'resolver') {
             showConfirmModal('Marcar reclamo como resuelto?', async () => {
                 try {
-                    const res = await fetch(`/api/encargado/reclamos/${id}/resolver`, { method: 'PUT', headers });
+                    const res = await fetch(`${API_BASE}/encargado/reclamos/${id}/resolver`, { method: 'PUT', headers });
                     if (!res.ok) throw new Error('Error al resolver reclamo');
                     loadClaims();
                 } catch (err) {
@@ -362,7 +364,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const id = fotoBtn.getAttribute('data-id');
         if (!id) return;
         try {
-            const res = await fetch(`/api/encargado/habitaciones/${id}/fotos`, { headers: getAuthHeaders() });
+            const res = await fetch(`${API_BASE}/encargado/habitaciones/${id}/fotos`, { headers: getAuthHeaders() });
             const fotos = res.ok ? await res.json() : [];
             const fotosHtml = (Array.isArray(fotos) && fotos.length) ? fotos.map(f => `
                 <div class="inline-block m-2 text-center" style="width:120px">
@@ -401,13 +403,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 showConfirmModal('Eliminar foto permanentemente?', async () => {
                     try {
                         // Intentar DELETE con query param
-                        const delRes = await fetch(`/api/encargado/habitaciones/${id}/fotos?url=${encodeURIComponent(url)}`, { method: 'DELETE', headers: getAuthHeaders() });
+                        const delRes = await fetch(`${API_BASE}/encargado/habitaciones/${id}/fotos?url=${encodeURIComponent(url)}`, { method: 'DELETE', headers: getAuthHeaders() });
                         if (!delRes.ok) {
                             // fallback a POST delete
-                            await fetch(`/api/encargado/habitaciones/${id}/fotos/delete`, { method: 'POST', headers: { 'Content-Type': 'application/json', ...getAuthHeaders() }, body: JSON.stringify({ url }) });
+                            await fetch(`${API_BASE}/encargado/habitaciones/${id}/fotos/delete`, { method: 'POST', headers: { 'Content-Type': 'application/json', ...getAuthHeaders() }, body: JSON.stringify({ url }) });
                         }
                         // refrescar lista
-                        const updatedRes = await fetch(`/api/encargado/habitaciones/${id}/fotos`, { headers: getAuthHeaders() });
+                        const updatedRes = await fetch(`${API_BASE}/encargado/habitaciones/${id}/fotos`, { headers: getAuthHeaders() });
                         const updated = updatedRes.ok ? await updatedRes.json() : [];
                         fotosListEl.innerHTML = (Array.isArray(updated) && updated.length) ? updated.map(f => `
                             <div class="inline-block m-2 text-center" style="width:120px">
@@ -432,10 +434,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     ev.preventDefault();
                     const fd = new FormData(uploadForm);
                     try {
-                        const uploadRes = await fetch(`/api/encargado/habitaciones/${id}/fotos`, { method: 'POST', headers: getAuthHeaders(), body: fd });
+                        const uploadRes = await fetch(`${API_BASE}/encargado/habitaciones/${id}/fotos`, { method: 'POST', headers: getAuthHeaders(), body: fd });
                         if (!uploadRes.ok) throw new Error('Error subiendo fotos');
                         // refrescar listado
-                        const updatedRes = await fetch(`/api/encargado/habitaciones/${id}/fotos`, { headers: getAuthHeaders() });
+                        const updatedRes = await fetch(`${API_BASE}/encargado/habitaciones/${id}/fotos`, { headers: getAuthHeaders() });
                         const updated = updatedRes.ok ? await updatedRes.json() : [];
                         fotosListEl.innerHTML = (Array.isArray(updated) && updated.length) ? updated.map(f => `
                             <div class="inline-block m-2 text-center" style="width:120px">
@@ -465,7 +467,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const token = localStorage.getItem('token');
         if (!token) return;
         if (eventSource) eventSource.close();
-        const url = `/api/encargado/reservas/stream?token=${encodeURIComponent(token)}`;
+        const url = `${API_BASE}/encargado/reservas/stream?token=${encodeURIComponent(token)}`;
         eventSource = new EventSource(url);
         eventSource.onmessage = (e) => {
             try {
