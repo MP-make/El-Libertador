@@ -2485,3 +2485,5 @@ app.post("/api/chat", authenticateToken, async (req, res) => {
     });
   }
 });
+m o d u l e . e x p o r t s   =   a p p ;  
+ 
