@@ -1,23 +1,13 @@
 {
   "version": 2,
-  "builds": [
+  "rewrites": [
     {
-      "src": "api/server.js",
-      "use": "@vercel/node"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "/api/server.js"
+      "source": "/api/(.*)",
+      "destination": "/api/server.js"
     },
     {
-      "src": "/(.*\\.(css|js|gif|png|jpg|jpeg|webp|svg|ico))",
-      "dest": "/public/$1"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/public/$1"
+      "source": "/(.*)",
+      "destination": "/public/$1"
     }
   ],
   "functions": {
@@ -25,9 +15,5 @@
       "maxDuration": 30,
       "memory": 1024
     }
-  },
-  "env": {
-    "NODE_ENV": "production"
-  },
-  "outputDirectory": "public"
+  }
 }
