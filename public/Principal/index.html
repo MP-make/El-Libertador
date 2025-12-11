@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gran Hotel El Libertador - Reservas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="index.css?v=301.0">
+    <link rel="stylesheet" href="modal.css?v=101">
+    <link rel="stylesheet" href="reserva-modal.css?v=103">
+    <link rel="stylesheet" href="pago-modal.css?v=2.0">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@400;600&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:wght@400;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <!-- Favicon: use existing logo as a simple favicon to avoid 404 -->
+    <link rel="icon" href="/img/Img-Hotel/Favicon-logo.png" type="image/png">
+
+    <!-- Carrusel responsive (se adapta al ancho y desliza suavemente) -->
+    <style>
+      /* ELIMINADO - Los estilos del carrusel ahora están en index.css */
+    </style>
+    <script>
+        // Forzar recarga del CSS sin caché
+        document.addEventListener('DOMContentLoaded', function() {
+            const links = document.querySelectorAll('link[rel="stylesheet"]');
+            links.forEach(link => {
+                if (link.href.includes('reserva-modal') || link.href.includes('index.css')) {
+                    link.href = link.href.split('?')[0] + '?t=' + new Date().getTime();
+                }
+            });
+        });
+    </script>
+</head>
+
+<body class="bg-principal">
+
+    
+    <header class="header">
+        <nav class="top-nav">
+            <picture>
+                <source media="(max-width: 600px)" srcset="https://placehold.co/100x100/8B4513/FDF6E3?text=Logo El Libertador">
+                <img src="/img/Img-Hotel/LOGO-LARGO.png"
+                    alt="Logo de Gran Hotel El Libertador" class="logo">
+            </picture>
+        </nav>
+
+        <nav class="auth-nav">
+            <div id="authButtons">
+                <button class="auth-link" data-modal-target="loginModal">
+                    <img src="/img/login-icon.png" alt="Iniciar Sesión" class="login-icon"> Iniciar Sesión
+                </button>
+            </div>
+            <!-- Botones visibles si hay sesión iniciada -->
+            <div id="userProfile" class="hidden flex items-center space-x-4">
+                <span id="userName" class="text-white text-lg font-semibold"></span>
+                <button id="profileBtn" class="auth-link"><i class="fas fa-user fa-lg"></i><span> Mi Perfil</span></button>
+                <button id="logoutBtn" class="auth-link"><i class="fas fa-sign-out-alt fa-lg"></i><span> Cerrar Sesión</span></button>
+            </div>
+        </nav>
+        <nav class="main-nav">
+            <ul class="nav-links">
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#habitaciones">Habitaciones</a></li>
+                <li><a href="#bienvenida">Información</a></li>
+                <li><a href="#servicios">Servicios</a></li>
+                <li><a href="#ubicacion">Ubicación</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+        </nav>
+    </header> 
+
+    <main>
+        <section id="inicio">
+            <!-- Carrusel principal mejorado estilo Casa Andina -->
+            <div id="heroCarousel" class="carousel">
+                <div class="carousel-track" id="carouselTrack">
+                    <!-- Las imágenes se cargarán dinámicamente -->
+                </div>
+                
+                <!-- Flechas de navegación -->
+                <button class="carousel-arrow prev" id="prevSlide" aria-label="Anterior">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="carousel-arrow next" id="nextSlide" aria-label="Siguiente">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+                
+                <!-- Indicadores -->
+                <div class="carousel-dots" id="carouselIndicators">
+                    <!-- Los indicadores se generarán dinámicamente -->
+                </div>
+            </div>
+
+            <!-- Barra de búsqueda flotante -->
+            <div class="search-overlay">
+                <form class="search-form" id="searchForm">
+                    <div class="search-field">
+                        <label for="search-checkin">Check-in</label>
+                        <input type="date" id="search-checkin" required>
+                    </div>
+                    <div class="search-field">
+                        <label for="search-checkout">Check-out</label>
+                        <input type="date" id="search-checkout" required>
+                    </div>
+                    <div class="search-field">
+                        <label for="search-guests">Huéspedes</label>
+                        <select id="search-guests">
+                            <option value="1">1 Huésped</option>
+                            <option value="2">2 Huéspedes</option>
+                            <option value="3">3 Huéspedes</option>
+                            <option value="4">4 Huéspedes</option>
+                        </select>
+                    </div>
+                    <div class="search-field">
+                        <label for="search-room">Categorías</label>
+                        <select id="search-room">
+                            <option value="">Todas</option>
+                            <option value="estandar">Estándar</option>
+                            <option value="matrimonial">Matrimonial</option>
+                            <option value="deluxe">Deluxe</option>
+                            <option value="junior-suite">Junior Suite</option>
+                        </select>
+                    </div>
+                    <div class="search-field precio-field">
+                        <label for="search-precio-min">Precio Min (S/)</label>
+                        <input type="number" id="search-precio-min" placeholder="0" min="0" step="10">
+                    </div>
+                    <div class="search-field precio-field">
+                        <label for="search-precio-max">Precio Max (S/)</label>
+                        <input type="number" id="search-precio-max" placeholder="1000" min="0" step="10">
+                    </div>
+                    
+                    <button type="submit" class="btn-buscar">Buscar</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- SECCIÓN HABITACIONES POPULARES - AHORA FUERA DE #inicio -->
+        <section id="habitaciones">
+            <h2 class="titulo-seccion">Habitaciones</h2>
+            <div id="habitacionGrid" class="habitacion-grid">
+                <!-- Las tarjetas de habitaciones se renderizarán aquí -->
+            </div>
+            <div class="text-center mt-8">
+                <a href="habitaciones.html" class="btn-primary btn-ver-mas">Ver Más Habitaciones</a>
+            </div>
+        </section>
+
+        <section id="mis-reservas" style="display: none;">
+            <h2 class="titulo-seccion">Mis Reservas</h2>
+            <div id="reservasGrid" class="habitacion-grid">
+                <!-- Las reservas se renderizarán aquí -->
+            </div>
+        </section>
+
+        <section id="bienvenida">
+            <div class="welcome-card">
+                <h2 class="titulo-seccion">Bienvenido a Gran Hotel El Libertador</h2>
+                <div class="welcome-content">
+                    <div class="welcome-text-block">
+                        <p class="welcome-text">
+                            El Gran Hotel El Libertador pertenece al sector hotelero y turístico de lujo. Ofrece hospedaje, gastronomía, bienestar y espacios para eventos, dirigido a turistas internacionales, viajeros de negocios y clientes locales que buscan experiencias premium. Ubicado en la histórica bahía de Pisco, el Gran Hotel El Libertador combina tradición republicana y lujo moderno. Ofrecemos habitaciones exclusivas, gastronomía local y spa. Viva una experiencia inolvidable donde la historia y el confort se encuentran frente al mar.
+                        </p>
+                    </div>
+                    <div class="welcome-image">
+                        <img src="/img/carousel/1763921132283-10.png" alt="Vista del Gran Hotel El Libertador" class="featured-image">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="servicios">
+            <h2 class="titulo-seccion">Nuestros Servicios</h2>
+            <div class="tarjeta-grid">
+                <div class="tarjeta-servicio">
+                    <i class="fa-solid fa-wifi"></i>
+                    <h3>Wi-Fi de Alta Velocidad</h3>
+                    <p>Conéctate con nuestra red ultrarrápida y gratuita en todas las áreas del hotel, perfecta para trabajo y entretenimiento.</p>
+                </div>
+                <div class="tarjeta-servicio">
+                    <i class="fa-solid fa-spa"></i>
+                    <h3>Servicios de Spa</h3>
+                    <p>Relájate con tratamientos personalizados de spa, masajes y bienestar, utilizando productos ecoamigables.</p>
+                </div>
+                <div class="tarjeta-servicio">
+                    <i class="fa-solid fa-leaf"></i>
+                    <h3>Sostenibilidad Ecológica</h3>
+                    <p>Comprometidos con el medio ambiente: iluminación LED, sensores de movimiento y reducción de plásticos para un futuro sostenible.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="ubicacion">
+            <h2 class="titulo-seccion">Ubicación</h2>
+            <div class="tarjeta-ubicacion">
+                <p>Urb. Jardines de San Andrés, Mz. "Ca" Lote "05", Etapa 1, San Andrés, Pisco, Ica.</p>
+                <div class="mapa-contenedor">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3901.123456789!2d-76.204!3d-13.709!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sUrb.%20Jardines%20de%20San%20Andr%C3%A9s%2C%20Mz.%20%22Ca%22%20Lote%20%2205%22%2C%20Etapa%201%2C%20San%20Andr%C3%A9s%2C%20Pisco%2C%20Ica!5e0!3m2!1ses-419!2sus!4v1701384976450!5m2!1ses-419!2sus"
+                        width="100%" height="100%" style="border:0;" allowfullscreen loading="lazy"></iframe>
+                    <!-- Fallback/helpful note for users whose browsers or extensions block Google Maps resources -->
+                    <p id="map-note" style="font-size:0.9rem;margin-top:8px;color:#555;">Si el mapa no carga (por ejemplo, por extensiones de bloqueo), intenta abrirlo directamente en Google Maps: <a href="https://www.google.com/maps/place/Urb.+Jardines+de+San+Andr%C3%A9s,+Mz.+%22Ca%22+Lote+%2205%22,+Etapa+1,+San+Andr%C3%A9s,+Pisco,+Ica" target="_blank" rel="noopener">Abrir en Google Maps</a>. También puedes probar en una ventana de incógnito sin extensiones.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="contacto">
+            <h2 class="titulo-seccion">Contáctanos</h2>
+            <div class="footer-row">
+                <div class="footer-col">
+                    <h4>Síguenos</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Compañía</h4>
+                    <ul>
+                        <li><a href="#">Nosotros</a></li>
+                        <li><a href="#">Servicios</a></li>
+                        <li><a href="#">Política de Privacidad</a></li>
+                        <li><a href="#">Califícanos</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Ayuda</h4>
+                    <ul>
+                        <li><a href="#">Teléfono: +51 (056) 505-123 / WhatsApp: +51 956 789 012</a></li>
+                        <li><a href="#">Correo: info@el-libertador.pe</a></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Gran Hotel El Libertador. Todos los derechos reservados.</p>
+        <p>Urb. Jardines de San Andrés, Mz. "Ca" Lote "05", Etapa 1, San Andrés, Pisco, Ica.</p>
+    </footer>
+
+    <!-- MODAL LOGIN -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" data-modal-close="loginModal">&times;</span>
+            <h2>Iniciar Sesión</h2>
+            <form id="loginForm">
+                <input type="email" id="loginEmail" placeholder="Correo electrónico" required class="form-input">
+                <input type="password" id="loginPassword" placeholder="Contraseña" required class="form-input">
+                <p id="loginMessage" class="text-red-500 my-2 text-center"></p>
+                <button type="submit" class="btn-submit">Ingresar</button>
+            </form>
+            <p class="form-footer">
+                ¿No tienes cuenta?
+                <a href="#" class="switch-modal" data-switch-modal-current="loginModal"
+                    data-switch-modal-next="registerModal">Regístrate aquí</a>.
+            </p>
+        </div>
+    </div>
+
+    <!-- MODAL REGISTRO -->
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" data-modal-close="registerModal">&times;</span>
+            <h2>Crear Cuenta</h2>
+            <form id="registerForm">
+                <input type="text" id="registerName" placeholder="Nombre completo" required class="form-input">
+                <input type="email" id="registerEmail" placeholder="Correo electrónico" required class="form-input">
+                <input type="password" id="registerPassword" placeholder="Contraseña" required class="form-input">
+                <p id="registerMessage" class="text-red-500 my-2 text-center"></p>
+                <button type="submit" class="btn-submit">Crear Cuenta</button>
+            </form>
+            <p class="form-footer">
+                ¿Ya tienes cuenta?
+                <a href="#" class="switch-modal" data-switch-modal-current="registerModal"
+                    data-switch-modal-next="loginModal">Inicia sesión</a>.
+            </p>
+        </div>
+    </div>
+
+    <!-- MODAL RESERVA -->
+    <div id="reservaModal" class="modal">
+        <div class="modal-content reserva-modal-content">
+            <span class="close-modal" data-modal-close="reservaModal">&times;</span>
+            <h2>Reservar Habitación</h2>
+            <div class="reserva-container">
+                <!-- COLUMNA 1: Datos de la habitación + Fechas -->
+                <div class="reserva-info-column">
+                    <p id="reservaHabitacionNombre" class="reserva-nombre"></p>
+                    <p id="reservaHabitacionCategoria" class="reserva-info"></p>
+                    <p id="reservaHabitacionPiso" class="reserva-info"></p>
+                    <p id="reservaHabitacionCapacidad" class="reserva-info"></p>
+                    <p id="reservaHabitacionPrecioDia" class="reserva-info reserva-precio"></p>
+                    
+                    <!-- FECHAS DEBAJO DE LOS DATOS -->
+                    <label for="fechaCheckin">Fecha de Check-in:</label>
+                    <input type="datetime-local" id="fechaCheckin" required class="form-input">
+                    
+                    <label for="fechaCheckout">Fecha de Check-out:</label>
+                    <input type="datetime-local" id="fechaCheckout" required class="form-input">
+                </div>
+
+                <!-- COLUMNA 2: Servicios adicionales -->
+                <div class="reserva-form-column">
+                    <h4>Servicios Adicionales (Upselling)</h4>
+                    <label><input type="checkbox" id="upsell-desayuno" value="20"> Desayuno Premium (+S/20)</label><br>
+                    <label><input type="checkbox" id="upsell-romantico" value="50"> Paquete Romántico (+S/50)</label><br>
+                    <label><input type="checkbox" id="upsell-spa" value="30"> Sesión de Spa (+S/30)</label><br>
+                    <label><input type="checkbox" id="upsell-late-checkout" value="15"> Late Check-out (+S/15)</label><br>
+                    
+                    <p id="reservaMessage" class="text-red-500 my-2 text-center"></p>
+                </div>
+
+                <!-- COLUMNA 3: Imagen y botón -->
+                <div class="reserva-imagen-column">
+                    <div class="reserva-imagen">
+                        <img id="reservaHabitacionImagen" src="/img/habitaciones/default-room.jpg" alt="Habitación" class="reserva-img">
+                    </div>
+                    
+                    <!-- BOTÓN DEBAJO DE LA IMAGEN -->
+                    <form id="reservaForm">
+                        <button type="submit" id="btnConfirmarReserva" class="btn-confirmar-reserva" disabled>Confirmar Reserva <i class="fas fa-check"></i></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL PAGO -->
+    <div id="pagoModal" class="modal">
+        <div class="modal-content pago-modal-content">
+            <span class="close-modal" data-modal-close="pagoModal">&times;</span>
+            <h2>Confirmar Pago</h2>
+            <div class="pago-resumen">
+                <div class="pago-info-card">
+                    <h3>📋 Resumen de Reserva</h3>
+                    <div class="pago-detalle">
+                        <span>Total a pagar:</span>
+                        <strong>S/ <span id="pagoMontoTotal">0.00</span></strong>
+                    </div>
+                    <div class="pago-detalle">
+                        <span>Monto mínimo (50%):</span>
+                        <strong>S/ <span id="pagoMontoMinimo">0.00</span></strong>
+                    </div>
+                    <div class="pago-detalle">
+                        <span>Número de días:</span>
+                        <strong><span id="pagoDias">0</span> días</strong>
+                    </div>
+                </div>
+                
+                <div class="pago-form-section">
+                    <form id="pagoForm">
+                        <div class="pago-form-row">
+                            <div class="form-group">
+                                <label for="pagoMonto">Monto a pagar:</label>
+                                <input type="number" id="pagoMonto" step="0.10" required class="form-input" placeholder="Ingrese el monto">
+                                <small class="form-hint">Mínimo 50% del total para confirmar la reserva</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="pagoMetodo">Método de Pago:</label>
+                                <select id="pagoMetodo" required class="form-input">
+                                    <option value="">Seleccionar método</option>
+                                    <option value="tarjeta">Tarjeta de Crédito/Débito</option>
+                                    <option value="yape">Yape</option>
+                                    <option value="plin">Plin</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="pagoComprobante">Número de Comprobante (opcional):</label>
+                                <input type="text" id="pagoComprobante" class="form-input" placeholder="Ej: YAPE-123456">
+                                <small class="form-hint">Si pagaste por Yape/Plin, ingresa el número de operación</small>
+                            </div>
+                        </div>
+
+                        <div class="pago-simulacion">
+                            <p class="text-sm text-gray-600">
+                                <i class="fas fa-info-circle"></i> Este es un sistema de pago simulado. 
+                                En producción se integraría con pasarelas de pago reales.
+                            </p>
+                        </div>
+
+                        <p id="pagoMessage" class="text-red-500 my-2 text-center"></p>
+                        
+                        <button type="submit" id="btnPagar" class="btn-confirmar-pago">
+                            <i class="fas fa-lock"></i> Confirmar Pago
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DETALLES DE RESERVA -->
+    <div id="detallesReservaModal" class="modal">
+        <div class="modal-content reserva-modal-content">
+            <span class="close-modal" data-modal-close="detallesReservaModal">&times;</span>
+            <h2>Detalles de la Reserva</h2>
+            <div class="reserva-container">
+                <!-- COLUMNA 1: Imagen de la habitación -->
+                <div class="reserva-imagen-detalle">
+                    <img id="detalleHabitacionImagen" src="" alt="Habitación" class="reserva-img">
+                    <!-- Información básica debajo de la imagen -->
+                    <div class="detalle-info-basica">
+                        <p><strong>Categoría:</strong> <span id="detalleCategoria"></span></p>
+                        <p><strong>Estado:</strong> <span id="detalleEstado" class="badge-estado"></span></p>
+                    </div>
+                </div>
+                
+                <!-- COLUMNA 2: Estado de Pago y Botón -->
+                <div class="reserva-detalles-info">
+                    <!-- Fechas de la reserva -->
+                    <div class="detalle-info-group">
+                        <p><strong>Check-in:</strong> <span id="detalleFechaCheckin"></span></p>
+                        <p><strong>Check-out:</strong> <span id="detalleFechaCheckout"></span></p>
+                        <p><strong>Fecha de creación:</strong> <span id="detalleFechaCreacion"></span></p>
+                    </div>
+                    
+                    <!-- Barra de progreso de pago -->
+                    <div class="detalle-info-group pago-progress-section">
+                        <h4>Estado de Pago</h4>
+                        <div class="pago-progress-container">
+                            <div class="pago-progress-bar">
+                                <div id="pagoProgressFill" class="pago-progress-fill"></div>
+                            </div>
+                            <div class="pago-progress-labels">
+                                <span class="pago-label-pagado">Pagado: <strong id="detallePagado">S/ 0.00</strong></span>
+                                <span class="pago-label-pendiente">Pendiente: <strong id="detalleFaltaPagar">S/ 0.00</strong></span>
+                            </div>
+                            <div class="pago-progress-total">
+                                <span>Total de la reserva: <strong id="detalleTotal">S/ 0.00</strong></span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Botón para completar el pago -->
+                    <div class="detalle-info-group">
+                        <button id="btnCompletarPago" class="btn-completar-pago" style="display: none;">
+                            <i class="fas fa-credit-card"></i> Completar Pago
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- COLUMNA 3: Formulario de Solicitud -->
+                <div class="reserva-reclamo-column">
+                    <h4>Enviar Solicitud sobre esta Reserva</h4>
+                    <form id="reclamoReservaForm">
+                        <label for="tipoSolicitud">Tipo de solicitud:</label>
+                        <select id="tipoSolicitud" class="form-input" required>
+                            <option value="">Seleccionar tipo</option>
+                            <option value="reclamo">Reclamo o Queja</option>
+                            <option value="pedido">Pedido Adicional</option>
+                            <option value="limpieza">Solicitar Limpieza</option>
+                        </select>
+                        
+                        <label for="reclamoDescripcion">Descripción detallada:</label>
+                        <textarea id="reclamoDescripcion" class="form-input" rows="4" placeholder="Describe tu solicitud..." required></textarea>
+                        <input type="hidden" id="reclamoHabitacionId" value="">
+                        <input type="hidden" id="reclamoReservaId" value="">
+                        <p id="reclamoMessage" class="text-red-500 my-2 text-center"></p>
+                        <button type="submit" class="btn-submit">
+                            <i class="fas fa-paper-plane"></i> Enviar Solicitud
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL CONFIRMAR PAGO COMPLETO -->
+    <div id="confirmarPagoCompletoModal" class="modal">
+        <div class="modal-content pago-completo-modal-content">
+            <span class="close-modal" data-modal-close="confirmarPagoCompletoModal">&times;</span>
+            <div class="pago-completo-container">
+                <div class="pago-completo-icon">
+                    <i class="fas fa-credit-card"></i>
+                </div>
+                <h2 class="pago-completo-title">Completar Pago</h2>
+                <p class="pago-completo-message">¿Desea completar el pago de <strong id="montoPendienteModal">S/ 0.00</strong>?</p>
+                
+                <div class="pago-completo-info">
+                    <div class="info-item">
+                        <span class="info-label">Total de la reserva:</span>
+                        <span class="info-value" id="totalReservaModal">S/ 0.00</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Ya pagado:</span>
+                        <span class="info-value text-green" id="yaPagadoModal">S/ 0.00</span>
+                    </div>
+                    <div class="info-item highlight">
+                        <span class="info-label">Pendiente a pagar:</span>
+                        <span class="info-value text-red" id="pendientePagarModal">S/ 0.00</span>
+                    </div>
+                </div>
+
+                <div class="pago-completo-buttons">
+                    <button id="btnCancelarPagoCompleto" class="btn-cancelar">
+                        <i class="fas fa-times"></i> Cancelar
+                    </button>
+                    <button id="btnConfirmarPagoCompleto" class="btn-confirmar">
+                        <i class="fas fa-check"></i> Confirmar Pago
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL PREVISUALIZACIÓN BOLETA -->
+    <div id="boletaModal" class="modal boleta-modal">
+        <div class="modal-content">
+            <span class="close-modal" data-modal-close="boletaModal">&times;</span>
+            <h2>Previsualización de Boleta</h2>
+            <div class="boleta-preview-container">
+                <div id="boletaContent" class="boleta-content boleta-a5">
+                    <!-- El contenido de la boleta se insertará aquí -->
+                </div>
+            </div>
+            <div class="boleta-buttons">
+                <button id="btnFormatoA5" class="btn-print">Formato A5</button>
+                <button id="btnFormatoTicket" class="btn-ticket">Formato Ticket</button>
+                <button id="btnImprimirBoleta" class="btn-print">Imprimir</button>
+                <button id="btnCerrarBoleta" class="btn-close-boleta">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ASISTENTE VIRTUAL CON IA -->
+    <!-- Botón GIF del Robot (solo visible si hay sesión) -->
+    <button id="chatBotButton" class="chat-bot-button">
+        <img src="/img/Ai-Bot.gif" alt="HotelBot">
+    </button>
+
+    <!-- Pop-up de bienvenida tipo bocadillo -->
+    <div id="chatWelcomePopup" class="chat-welcome-popup">
+        ¡Habla con HotelBot!
+    </div>
+
+    <!-- Modal del chat -->
+    <div id="chatModal" class="chat-modal">
+        <div class="chat-header">
+            <h3>HotelBot - Asistente Virtual</h3>
+            <button id="closeChatBtn" class="chat-close-btn">&times;</button>
+        </div>
+        
+        <div id="chatMessages" class="chat-messages">
+            <div class="message bot">
+                ¡Hola! Soy HotelBot, tu asistente virtual del Gran Hotel El Libertador. ¿En qué puedo ayudarte hoy?
+            </div>
+        </div>
+        
+        <div class="chat-input-container">
+            <input 
+                type="text" 
+                id="chatInput" 
+                placeholder="Escribe tu pregunta..."
+                autocomplete="off"
+            >
+            <button id="sendChatBtn">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+
+    <script src="index.js"></script>
+    <script src="chat-ia.js"></script>
+</body>
+
+</html>

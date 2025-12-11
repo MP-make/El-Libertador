@@ -1,0 +1,45 @@
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+*.log
+
+# Environment
+.env
+.env.local
+.env.production.local
+.env.development.local
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build
+dist/
+build/
+
+# Git
+.git/
+.gitignore
+
+# Carpetas innecesarias
+HOTEL-MP/Backend/
+HOTEL-MP/Fronted/
+HOTEL-MP/node_modules/
+Backend/
+
+# Archivos de documentación
+*.md
+!README.md
+DEPLOYMENT.md
+
+# Archivos temporales
+*.tmp
+*.bak
