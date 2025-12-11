@@ -207,14 +207,14 @@ app.use(express.json());
 // Servir archivos estáticos desde public/
 const staticPath = isVercel
   ? path.join(__dirname, '..', 'public')
-  : path.join(__dirname, '..', 'Fronted', 'Public', 'Principal');
+  : path.join(__dirname, '..', 'Frontend', 'Public', 'Principal');
 
 app.use(express.static(staticPath));
 
 // Servir imágenes
 const imgStatic = isVercel
   ? path.join(__dirname, '..', 'public', 'img')
-  : path.join(__dirname, '..', 'Fronted', 'Public', 'img');
+  : path.join(__dirname, '..', 'Frontend', 'Public', 'img');
 
 app.use('/img', express.static(imgStatic));
 

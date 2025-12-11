@@ -31,7 +31,7 @@ build/
 
 # Carpetas innecesarias
 HOTEL-MP/Backend/
-HOTEL-MP/Fronted/
+HOTEL-MP/Frontend/
 HOTEL-MP/node_modules/
 Backend/
 

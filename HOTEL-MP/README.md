@@ -707,7 +707,7 @@ HOTEL-MP/
 │   ├── payment_service.js       # Servicio de pagos
 │   └── package.json             # Dependencias backend
 │
-├── Fronted/
+├── Frontend/
 │   ├── Public/
 │   │   ├── img/
 │   │   │   ├── carousel/        # Imágenes del slider
@@ -986,7 +986,7 @@ node server.js
 
 Abrir en el navegador:
 ```
-Backend/index.html  o  Fronted/Public/Principal/index.html
+Backend/index.html  o  Frontend/Public/Principal/index.html
 ```
 
 ---

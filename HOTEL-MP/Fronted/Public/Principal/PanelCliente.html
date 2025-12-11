@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel del Cliente - El Gran Libertador</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="Cliente.css?v=5.0">
+    <link rel="stylesheet" href="index.css?v=3.0">
+    <link rel="stylesheet" href="modal.css?v=100">
+    <link rel="stylesheet" href="reserva-modal.css?v=103">
+    <link rel="stylesheet" href="pago-modal.css?v=2.0">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:wght@400;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="icon" href="/img/Favicon-logo.png" type="image/png">
+</head>
+<body class="bg-principal dashboard-body">
+
+    <!-- Dashboard container sin header -->
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="mini-perfil">
+                    <img src="/img/Favicon-logo.png" alt="Hotel El Libertador" class="avatar">
+                    <div class="user-info">
+                        <p class="user-name" id="sidebarUserName">Cliente</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+                <h2 class="sidebar-title">Panel del Cliente</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="#" class="sidebar-link active" data-section="mi-perfil"><i class="fas fa-user"></i> Mi Perfil</a></li>
+                    <li><a href="#" class="sidebar-link" data-section="estado-notificaciones"><i class="fas fa-bell"></i> Notificaciones</a></li>
+                    <li><a href="#" class="sidebar-link" data-section="mis-reservas"><i class="fas fa-calendar-check"></i> Reservas</a></li>
+                    <li><a href="#" class="sidebar-link" data-section="mis-reclamos"><i class="fas fa-exclamation-triangle"></i> Reclamos</a></li>
+                    <li><button id="backToIndexBtn" class="sidebar-link"><i class="fas fa-home"></i> Inicio</button></li>
+                    <li><button id="logoutBtn" class="sidebar-link"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</button></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Estado y Notificaciones -->
+            <section id="estado-notificaciones" class="content-section active">
+                <div class="section-header">
+                    <h1>Estado y Notificaciones</h1>
+                </div>
+                <div class="notifications-list">
+                    <!-- Notificaciones se cargarán dinámicamente -->
+                    <div class="notification-item">
+                        <div class="notification-icon"><i class="fas fa-info-circle"></i></div>
+                        <div class="notification-content">
+                            <h4>Bienvenido a tu panel</h4>
+                            <p>Revisa tus reservas y mantén tu información actualizada.</p>
+                        </div>
+                    </div>
+                    <!-- Más notificaciones aquí -->
+                </div>
+            </section>
+
+            <!-- Mis Reservas -->
+            <section id="mis-reservas" class="content-section">
+                <div class="section-header">
+                    <h1>Mis Reservas</h1>
+                </div>
+                <div id="reservasGrid" class="reservas-grid">
+                    <!-- Reservas se cargarán dinámicamente -->
+                </div>
+            </section>
+
+            <!-- Mi Perfil -->
+            <section id="mi-perfil" class="content-section">
+                <div class="section-header">
+                    <h1>Mi Perfil</h1>
+                </div>
+                <div class="form-container">
+                    <form id="perfilForm" class="perfil-form">
+                        <div class="form-block">
+                            <h3>Datos Personales y de Contacto</h3>
+                            <div class="form-group">
+                                <label for="perfilNombre">Nombre Completo:</label>
+                                <input type="text" id="perfilNombre" name="nombre" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="perfilEmail">Correo Electrónico:</label>
+                                <input type="email" id="perfilEmail" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="perfilTelefono">Teléfono:</label>
+                                <input type="tel" id="perfilTelefono" name="telefono" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="perfilUbicacion">Ubicación (País/Ciudad):</label>
+                                <input type="text" id="perfilUbicacion" name="ubicacion" required>
+                            </div>
+                        </div>
+                        <div class="form-block">
+                            <h3>Seguridad y Contraseña</h3>
+                            <div class="form-group">
+                                <label for="perfilCurrentPassword">Contraseña Actual:</label>
+                                <input type="password" id="perfilCurrentPassword" name="currentPassword" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="perfilNewPassword">Nueva Contraseña:</label>
+                                <input type="password" id="perfilNewPassword" name="newPassword">
+                            </div>
+                            <div class="form-group">
+                                <label for="perfilConfirmPassword">Confirmar Nueva Contraseña:</label>
+                                <input type="password" id="perfilConfirmPassword" name="confirmPassword">
+                            </div>
+                        </div>
+                        <div class="form-block">
+                            <h3>Preferencias de Reserva</h3>
+                            <div class="form-group">
+                                <label for="perfilTipoHabitacion">Tipo de Habitación Favorita:</label>
+                                <select id="perfilTipoHabitacion" name="tipoHabitacion">
+                                    <option value="">Selecciona un tipo</option>
+                                    <option value="King">King</option>
+                                    <option value="Doble">Doble</option>
+                                    <option value="Suite">Suite</option>
+                                    <option value="Deluxe">Deluxe</option>
+                                    <option value="Matrimonial">Matrimonial</option>
+                                    <option value="Estandar">Estándar</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="perfilPreferenciaPiso">Preferencias de Piso:</label>
+                                <input type="text" id="perfilPreferenciaPiso" name="preferenciaPiso" placeholder="Ej. Piso alto, Piso bajo">
+                            </div>
+                            <div class="form-group">
+                                <label for="perfilNecesidadesEspeciales">Necesidades Especiales/Servicio:</label>
+                                <textarea id="perfilNecesidadesEspeciales" name="necesidadesEspeciales" placeholder="Ej. Alergias, cuna, accesibilidad"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn-primary">ACTUALIZAR PERFIL</button>
+                            <button type="button" id="deleteAccountBtn" class="btn-secondary">ELIMINAR CUENTA</button>
+                        </div>
+                        <p id="perfilMessage" class="message"></p>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Mis Reclamos -->
+            <section id="mis-reclamos" class="content-section">
+                <div class="section-header">
+                    <h1>Mis Reclamos</h1>
+                    <button id="btnNuevoReclamo" class="btn-primary">Nuevo Reclamo</button>
+                </div>
+                <div id="reclamosGrid" class="reclamos-grid">
+                    <!-- Reclamos se cargarán dinámicamente -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal para detalles de reserva -->
+    <div id="detallesReservaModal" class="modal">
+        <div class="modal-content reserva-modal-content">
+            <span class="close-modal" data-modal-close="detallesReservaModal">&times;</span>
+            <h2>Detalles de la Reserva</h2>
+            <div class="reserva-container">
+                <!-- COLUMNA 1: Imagen de la habitación -->
+                <div class="reserva-imagen-detalle">
+                    <img id="detalleHabitacionImagen" src="" alt="Habitación" class="reserva-img">
+                    <!-- Información básica debajo de la imagen -->
+                    <div class="detalle-info-basica">
+                        <p><strong>Categoría:</strong> <span id="detalleCategoria"></span></p>
+                        <p><strong>Estado:</strong> <span id="detalleEstado" class="badge-estado"></span></p>
+                    </div>
+                </div>
+                
+                <!-- COLUMNA 2: Estado de Pago y Botón -->
+                <div class="reserva-detalles-info">
+                    <!-- Fechas de la reserva -->
+                    <div class="detalle-info-group">
+                        <p><strong>Check-in:</strong> <span id="detalleFechaCheckin"></span></p>
+                        <p><strong>Check-out:</strong> <span id="detalleFechaCheckout"></span></p>
+                        <p><strong>Fecha de creación:</strong> <span id="detalleFechaCreacion"></span></p>
+                    </div>
+                    
+                    <!-- Barra de progreso de pago -->
+                    <div class="detalle-info-group pago-progress-section">
+                        <h4>Estado de Pago</h4>
+                        <div class="pago-progress-container">
+                            <div class="pago-progress-bar">
+                                <div id="pagoProgressFill" class="pago-progress-fill"></div>
+                            </div>
+                            <div class="pago-progress-labels">
+                                <span class="pago-label-pagado">Pagado: <strong id="detallePagado">S/ 0.00</strong></span>
+                                <span class="pago-label-pendiente">Pendiente: <strong id="detalleFaltaPagar">S/ 0.00</strong></span>
+                            </div>
+                            <div class="pago-progress-total">
+                                <span>Total de la reserva: <strong id="detalleTotal">S/ 0.00</strong></span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Botón para completar el pago -->
+                    <div class="detalle-info-group">
+                        <button id="btnCompletarPago" class="btn-completar-pago" style="display: none;">
+                            <i class="fas fa-credit-card"></i> Completar Pago
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- COLUMNA 3: Formulario de Reclamo -->
+                <div class="reserva-reclamo-column">
+                    <h4>Enviar Solicitud sobre esta Reserva</h4>
+                    <form id="reclamoReservaForm">
+                        <label for="reclamoTipo">Tipo de Solicitud:</label>
+                        <select id="reclamoTipo" class="form-input" required style="margin-bottom: 12px;">
+                            <option value="reclamo">Reclamos o Quejas</option>
+                            <option value="pedido">Pedidos Adicionales</option>
+                            <option value="limpieza">Limpieza</option>
+                        </select>
+                        
+                        <label for="reclamoDescripcion">Descripción:</label>
+                        <textarea id="reclamoDescripcion" class="form-input" rows="4" placeholder="Describe tu solicitud..." required></textarea>
+                        <input type="hidden" id="reclamoHabitacionId" value="">
+                        <input type="hidden" id="reclamoReservaId" value="">
+                        <p id="reclamoMessage" class="text-red-500 my-2 text-center"></p>
+                        <button type="submit" class="btn-submit">Enviar Solicitud</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL CONFIRMAR PAGO COMPLETO -->
+    <div id="confirmarPagoCompletoModal" class="modal">
+        <div class="modal-content pago-completo-modal-content">
+            <span class="close-modal" data-modal-close="confirmarPagoCompletoModal">&times;</span>
+            <div class="pago-completo-container">
+                <div class="pago-completo-icon">
+                    <i class="fas fa-credit-card"></i>
+                </div>
+                <h2 class="pago-completo-title">Completar Pago</h2>
+                <p class="pago-completo-message">¿Desea completar el pago de <strong id="montoPendienteModal">S/ 0.00</strong>?</p>
+                
+                <div class="pago-completo-info">
+                    <div class="info-item">
+                        <span class="info-label">Total de la reserva:</span>
+                        <span class="info-value" id="totalReservaModal">S/ 0.00</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Ya pagado:</span>
+                        <span class="info-value text-green" id="yaPagadoModal">S/ 0.00</span>
+                    </div>
+                    <div class="info-item highlight">
+                        <span class="info-label">Pendiente a pagar:</span>
+                        <span class="info-value text-red" id="pendientePagarModal">S/ 0.00</span>
+                    </div>
+                </div>
+
+                <div class="pago-completo-buttons">
+                    <button id="btnCancelarPagoCompleto" class="btn-cancelar">
+                        <i class="fas fa-times"></i> Cancelar
+                    </button>
+                    <button id="btnConfirmarPagoCompleto" class="btn-confirmar">
+                        <i class="fas fa-check"></i> Confirmar Pago
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL PREVISUALIZACIÓN BOLETA -->
+    <div id="boletaModal" class="modal boleta-modal">
+        <div class="modal-content">
+            <span class="close-modal" data-modal-close="boletaModal">&times;</span>
+            <h2>Previsualización de Boleta</h2>
+            <div class="boleta-preview-container">
+                <div id="boletaContent" class="boleta-content boleta-a5">
+                    <!-- El contenido de la boleta se insertará aquí -->
+                </div>
+            </div>
+            <div class="boleta-buttons">
+                <button id="btnFormatoA5" class="btn-print">Formato A5</button>
+                <button id="btnFormatoTicket" class="btn-ticket">Formato Ticket</button>
+                <button id="btnImprimirBoleta" class="btn-print">Imprimir</button>
+                <button id="btnCerrarBoleta" class="btn-close-boleta">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para nuevo reclamo -->
+    <div id="nuevoReclamoModal" class="modal">
+        <div class="modal-content">
+            <span class="close" data-modal-close="nuevoReclamoModal">&times;</span>
+            <h2>Enviar Nueva Solicitud</h2>
+            <form id="nuevoReclamoForm" class="reclamo-form">
+                <div class="form-group">
+                    <label for="nuevoReclamoTipo">Tipo de Solicitud:</label>
+                    <select id="nuevoReclamoTipo" name="tipo_solicitud" required>
+                        <option value="reclamo">⚠️ Reclamo</option>
+                        <option value="pedido">🛎️ Pedido</option>
+                        <option value="limpieza">🧹 Limpieza</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="reclamoHabitacion">Habitación:</label>
+                    <select id="reclamoHabitacion" name="id_habitacion" required>
+                        <!-- Opciones se cargarán dinámicamente -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="reclamoDescripcion">Descripción:</label>
+                    <textarea id="reclamoDescripcion" name="descripcion" required></textarea>
+                </div>
+                <button type="submit" class="btn-primary">Enviar Solicitud</button>
+                <p id="reclamoMessage" class="message"></p>
+            </form>
+        </div>
+    </div>
+
+    <script src="Cliente.js"></script>
+</body>
+</html>

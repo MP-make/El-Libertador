@@ -42,7 +42,7 @@ build/
 
 # Carpetas duplicadas/innecesarias
 HOTEL-MP/Backend/
-HOTEL-MP/Fronted/
+HOTEL-MP/Frontend/
 Backend/
 
 # Temporary files

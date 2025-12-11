@@ -171,8 +171,8 @@ app.listen(PORT, () => {
 });
 
 // Define la ruta absoluta para guardar las fotos
-// La carpeta de destino será 'Fronted/Public/img/habitaciones' para coincidir con las rutas guardadas en DB
-const uploadDir = path.join(__dirname, '..', 'Fronted', 'Public', 'img', 'habitaciones');
+// La carpeta de destino será 'Frontend/Public/img/habitaciones' para coincidir con las rutas guardadas en DB
+const uploadDir = path.join(__dirname, '..', 'Frontend', 'Public', 'img', 'habitaciones');
 
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
@@ -193,7 +193,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 // Configuración para carrusel
-const carouselDir = path.join(__dirname, '..', 'Fronted', 'Public', 'img', 'carousel');
+const carouselDir = path.join(__dirname, '..', 'Frontend', 'Public', 'img', 'carousel');
 
 if (!fs.existsSync(carouselDir)) {
   fs.mkdirSync(carouselDir, { recursive: true });
@@ -216,12 +216,12 @@ app.use(cors());
 app.use(express.json());
 
 // Sirve archivos estáticos del front-end desde la carpeta 'Frontend/Public/Principal'
-const staticPath = path.join(__dirname, '..', 'Fronted', 'Public', 'Principal');
+const staticPath = path.join(__dirname, '..', 'Frontend', 'Public', 'Principal');
 console.log('Sirviendo archivos estáticos desde:', staticPath);
 app.use(express.static(staticPath));
 
 // Servir imágenes públicas (ruta /img/...)
-const imgStatic = path.join(__dirname, '..', 'Fronted', 'Public', 'img');
+const imgStatic = path.join(__dirname, '..', 'Frontend', 'Public', 'img');
 app.use('/img', express.static(imgStatic));
 
 // Evitar 404 en /favicon.ico: servir favicon si existe o una imagen por defecto
@@ -1368,7 +1368,7 @@ app.get("/api/admin/habitaciones", authenticateToken, requireEncargado, async (r
  */
 app.get("/api/admin/carrusel", authenticateToken, requireEncargado, async (req, res) => {
   try {
-    const carouselDir = path.join(__dirname, '..', 'Fronted', 'Public', 'img', 'carousel');
+    const carouselDir = path.join(__dirname, '..', 'Frontend', 'Public', 'img', 'carousel');
     if (!fs.existsSync(carouselDir)) {
       return res.json([]);
     }
@@ -1420,7 +1420,7 @@ app.delete("/api/admin/carrusel/:filename", authenticateToken, requireEncargado,
  */
 app.get("/api/carrusel", async (req, res) => {
   try {
-    const carouselDir = path.join(__dirname, '..', 'Fronted', 'Public', 'img', 'carousel');
+    const carouselDir = path.join(__dirname, '..', 'Frontend', 'Public', 'img', 'carousel');
     if (!fs.existsSync(carouselDir)) {
       return res.json({ images: [] });
     }
